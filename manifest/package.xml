@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>*</members>
-		<name>CustomTab</name>
+		<members>Project__c-Page PM</members>
+		<name>Layout</name>
 	</types>
 	<types>
-		<members>Gesti_n_de_Proyectos_UtilityBar</members>
-		<name>FlexiPage</name>
+		<members>*</members>
+		<name>PermissionSet</name>
 	</types>
 	<version>55.0</version>
 </Package>
