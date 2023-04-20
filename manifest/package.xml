@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
+		<members>Project_Resources__c</members>
+		<members>Project__c</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
 		<members>*</members>
 		<name>FlexiPage</name>
 	</types>
 	<types>
 		<members>*</members>
 		<name>Flow</name>
+	</types>
+	<types>
+		<members>Project__c-Page PM</members>
+		<members>Project__c-Project Layout</members>
+		<name>Layout</name>
 	</types>
 	<types>
 		<members>unfiled$public/Assigned_Hours_VS_Total_Hours_Byj</members>
