@@ -5,7 +5,7 @@
         <name>Add_Project_Line_Item_To_The_Collection</name>
         <label>Add Project Line Item To The Collection</label>
         <locationX>264</locationX>
-        <locationY>1151</locationY>
+        <locationY>1271</locationY>
         <assignmentItems>
             <assignToReference>ProjectLineItemCollection</assignToReference>
             <operator>Add</operator>
@@ -18,10 +18,26 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Set_Project_Name</name>
+        <label>Set Project Name</label>
+        <locationX>176</locationX>
+        <locationY>791</locationY>
+        <assignmentItems>
+            <assignToReference>ProjectName</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.Account.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>New_Poject</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Set_Temporal_Project_Line_Item</name>
         <label>Set Temporal Project Line Item</label>
         <locationX>264</locationX>
-        <locationY>1031</locationY>
+        <locationY>1151</locationY>
         <assignmentItems>
             <assignToReference>ProjectLineItemTemporal.Project__c</assignToReference>
             <operator>Assign</operator>
@@ -65,12 +81,12 @@
     </assignments>
     <environments>Default</environments>
     <interviewLabel>Create Project from Opportunity {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Create Project from Opportunity v0.2</label>
+    <label>Create Project from Opportunity v0.3</label>
     <loops>
         <name>Loop_OppLineItems_After_Save_Project</name>
         <label>Loop OppLineItems After Save Project</label>
         <locationX>176</locationX>
-        <locationY>911</locationY>
+        <locationY>1031</locationY>
         <collectionReference>Get_OppLineItems</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -91,7 +107,7 @@
             <targetReference>Sum_Sold_Hours</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>New_Poject</targetReference>
+            <targetReference>Set_Project_Name</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -117,7 +133,7 @@
         <name>New_Poject</name>
         <label>New Poject</label>
         <locationX>176</locationX>
-        <locationY>791</locationY>
+        <locationY>911</locationY>
         <connector>
             <targetReference>Loop_OppLineItems_After_Save_Project</targetReference>
         </connector>
@@ -131,6 +147,12 @@
             <field>End_Date__c</field>
             <value>
                 <elementReference>$Record.End_Date__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>ProjectName</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -176,7 +198,7 @@
         <name>New_Project_Line_Items</name>
         <label>New Project Line Items</label>
         <locationX>176</locationX>
-        <locationY>1367</locationY>
+        <locationY>1487</locationY>
         <inputReference>ProjectLineItemCollection</inputReference>
     </recordCreates>
     <recordLookups>
@@ -219,7 +241,7 @@
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>ProjectLineItemCollection</name>
         <dataType>SObject</dataType>
@@ -235,6 +257,16 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>ProjectLineItem__c</objectType>
+    </variables>
+    <variables>
+        <name>ProjectName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>Project-</stringValue>
+        </value>
     </variables>
     <variables>
         <name>TotalSoldHours</name>
