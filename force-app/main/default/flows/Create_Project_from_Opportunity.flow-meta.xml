@@ -162,6 +162,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>$Record.Project_Manager__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Project_Manager__c</field>
             <value>
                 <elementReference>$Record.Project_Manager__c</elementReference>
