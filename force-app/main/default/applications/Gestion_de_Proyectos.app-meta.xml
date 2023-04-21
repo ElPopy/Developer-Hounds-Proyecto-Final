@@ -11,6 +11,30 @@
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Gestión de Proyectos</label>
     <navType>Standard</navType>
+    <profileActionOverrides>
+        <actionName>Tab</actionName>
+        <content>Home_Page_Default</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>standard-home</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Project_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Project__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Project_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Project__c</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>Project__c</tabs>
     <uiType>Lightning</uiType>
