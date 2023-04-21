@@ -55,10 +55,11 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
+                    <value>Required Assigned Hours and Users</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>reportName</name>
-                    <value>Required_Assigned_Hours_and_Users_SWH</value>
+                    <value>Required_Assigned_Hours_and_Users_v20_mpC</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showRefreshButton</name>
