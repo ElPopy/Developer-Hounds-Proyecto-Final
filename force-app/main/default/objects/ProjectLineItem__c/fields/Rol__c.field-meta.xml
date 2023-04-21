@@ -27,9 +27,9 @@
                 <label>Developer</label>
             </value>
             <value>
-                <fullName>Architect</fullName>
+                <fullName>Arquitect</fullName>
                 <default>false</default>
-                <label>Architect</label>
+                <label>Arquitect</label>
             </value>
         </valueSetDefinition>
     </valueSet>
