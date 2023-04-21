@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>Gestion_de_Proyectos</members>
-		<name>CustomApplication</name>
-	</types>
-	<types>
-		<members>ProjectLineItem__c</members>
-		<name>CustomObject</name>
-	</types>
-	<types>
-		<members>Project_Record_Page</members>
-		<members>Project_Record_Page1</members>
+		<members>Home_Page_Default</members>
 		<name>FlexiPage</name>
 	</types>
 	<version>55.0</version>
