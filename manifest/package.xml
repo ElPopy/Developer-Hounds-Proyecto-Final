@@ -4,5 +4,10 @@
 		<members>ProjectLineItem__c</members>
 		<name>CustomObject</name>
 	</types>
+	<types>
+		<members>Project_Record_Page</members>
+		<members>Project_Record_Page1</members>
+		<name>FlexiPage</name>
+	</types>
 	<version>55.0</version>
 </Package>
