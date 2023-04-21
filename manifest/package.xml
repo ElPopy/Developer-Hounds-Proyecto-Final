@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>Home_Page_Default</members>
-		<members>Project_Record_Page</members>
-		<members>Project_Record_Page1</members>
+		<members>*</members>
 		<name>FlexiPage</name>
+	</types>
+	<types>
+		<members>*</members>
+		<name>Flow</name>
 	</types>
 	<types>
 		<members>Opportunity-Opportunity Layout</members>
@@ -15,12 +17,24 @@
 		<name>PermissionSet</name>
 	</types>
 	<types>
+		<members>Project Manager</members>
+		<members>Resource</members>
+		<name>Profile</name>
+	</types>
+	<types>
 		<members>unfiled$public/Required_Assigned_Hours_and_Users_v20_mpC</members>
 		<name>Report</name>
 	</types>
 	<types>
 		<members>*</members>
 		<name>ReportType</name>
+	</types>
+	<types>
+		<members>Arquitect</members>
+		<members>Consultant</members>
+		<members>Developer</members>
+		<members>Project_Manager</members>
+		<name>Role</name>
 	</types>
 	<version>55.0</version>
 </Package>

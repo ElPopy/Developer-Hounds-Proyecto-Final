@@ -251,7 +251,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
-    <label>Experience Profile Manager</label>
+    <label>eProject Manager</label>
     <license>Salesforce</license>
     <objectPermissions>
         <allowCreate>true</allowCreate>
