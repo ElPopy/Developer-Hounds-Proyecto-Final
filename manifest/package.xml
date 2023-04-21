@@ -7,6 +7,14 @@
 		<name>FlexiPage</name>
 	</types>
 	<types>
+		<members>Opportunity-Opportunity Layout</members>
+		<name>Layout</name>
+	</types>
+	<types>
+		<members>*</members>
+		<name>PermissionSet</name>
+	</types>
+	<types>
 		<members>unfiled$public/Required_Assigned_Hours_and_Users_v20_mpC</members>
 		<name>Report</name>
 	</types>
