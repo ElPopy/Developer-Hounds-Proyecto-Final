@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
+		<members>Gestion_de_Proyectos</members>
+		<name>CustomApplication</name>
+	</types>
+	<types>
 		<members>*</members>
 		<name>FlexiPage</name>
 	</types>
@@ -10,6 +14,7 @@
 	</types>
 	<types>
 		<members>Opportunity-Opportunity Layout</members>
+		<members>Project_Resources__c-Project Resource Layout</members>
 		<name>Layout</name>
 	</types>
 	<types>
