@@ -5,6 +5,10 @@
 		<name>CustomApplication</name>
 	</types>
 	<types>
+		<members>Project_Resources__c</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
 		<members>*</members>
 		<name>FlexiPage</name>
 	</types>
