@@ -13,7 +13,7 @@ public with sharing class ResourceService {
         Resource__r.Rate_Hour__c,
         Resource__r.UserRoleId
       FROM Project_Resources__c
-      WHERE End_Date__c <= :projectStartDate
+      WHERE End_Date__c <= :projectStartDate OR Start_Date__c >= :projectEndDate
     ];
 
     for (Project_Resources__c resource : projectResources) {

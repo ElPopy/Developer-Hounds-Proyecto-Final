@@ -126,4 +126,58 @@ public class ResourceServiceTest {
     System.assertEquals(1, availableResources.size(), 'wrong list size');
     System.assertEquals(erikaId, actualId, 'wrong Id');
   }
+
+  @isTest
+  static void shoudlReturnErikaAndMaxForProjectFrom2304To2604() {
+    Id profileId = [
+      SELECT Id
+      FROM Profile
+      WHERE Name = 'Project Manager'
+      LIMIT 1
+    ]
+    .Id;
+    List<User> projectManagers = [
+      SELECT Id
+      FROM User
+      WHERE ProfileId = :profileId
+    ];
+
+    Id erikaId = projectManagers.get(0).Id;
+    Id maxId = projectManagers.get(1).Id;
+
+    List<Project_Resources__c> prToInsert = new List<Project_Resources__c>();
+    Project_Resources__c erikabussy = new Project_Resources__c(
+      Start_Date__c = Date.newInstance(2023, 4, 17),
+      End_Date__c = Date.newInstance(2023, 4, 23),
+      Resource__c = erikaId
+    );
+    Project_Resources__c maxbussy = new Project_Resources__c(
+      Start_Date__c = Date.newInstance(2023, 4, 26),
+      End_Date__c = Date.newInstance(2023, 4, 30),
+      Resource__c = maxId
+    );
+    prToInsert.add(erikabussy);
+    prToInsert.add(maxbussy);
+
+    insert prToInsert;
+
+    Test.startTest();
+
+    Date projectStartDate = Date.newInstance(2023, 4, 23);
+    Date projectEndDate = Date.newInstance(2023, 4, 26);
+
+    List<ResourceWrapper> availableResources = ResourceService.queryAvailableResources(
+      projectStartDate,
+      projectEndDate
+    );
+
+    Test.stopTest();
+
+    // Id actualErikaId = availableResources.get(0).id;
+    // Id actualMaxId = availableResources.get(1).id;
+
+    System.assertEquals(2, availableResources.size(), 'wrong list size');
+    // System.assertEquals(erikaId, actualId, 'wrong Id');
+  }
+
 }
