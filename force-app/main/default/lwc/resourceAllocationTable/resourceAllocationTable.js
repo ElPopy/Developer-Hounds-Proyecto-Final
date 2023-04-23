@@ -1,18 +1,5 @@
 import { LightningElement, api } from "lwc";
 
-
-// Project              S-------E
-// User       s---------e
-// User                         s---------e
-// User3    s--------e      s---------e
-// User           s---------e
-
-
-// User2    s--------e             s---------e
-// User1      [---]   [---]  [---]  [----]
-
-
-
 const project = {
   projectId: "project001",
   projectLineItems: [
