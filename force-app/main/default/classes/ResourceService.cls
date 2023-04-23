@@ -3,7 +3,7 @@ public with sharing class ResourceService {
     Date projectStartDate,
     Date projectEndDate
   ) {
-    List<ResourceWrapper> availableResources = new List<ResourceWrapper>();
+    Map<Id, ResourceWrapper> availableResources = new Map<Id, ResourceWrapper>();
 
     List<Project_Resources__c> projectResources = [
       SELECT
@@ -17,9 +17,14 @@ public with sharing class ResourceService {
     ];
 
     for (Project_Resources__c resource : projectResources) {
-      availableResources.add(new ResourceWrapper(resource));
+      if (!availableResources.containsKey(resource.Resource__c)) {
+        availableResources.put(
+          resource.Resource__c,
+          new ResourceWrapper(resource)
+        );
+      }
     }
 
-    return availableResources;
+    return availableResources.values();
   }
 }

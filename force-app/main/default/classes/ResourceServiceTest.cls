@@ -35,6 +35,15 @@ public class ResourceServiceTest {
 
     List<User> newUsers = new List<User>();
 
+    Id profileId = [
+      SELECT Id
+      FROM Profile
+      WHERE Name = 'Project Manager'
+      LIMIT 1
+    ]
+    .Id;
+    Id roleId = [SELECT Id FROM UserRole WHERE Name = 'Developer' LIMIT 1].Id;
+
     for (Map<String, Object> userData : userDataList) {
       User newUser = new User();
       newUser.FirstName = (String) userData.get('FirstName');
@@ -50,16 +59,7 @@ public class ResourceServiceTest {
       newUser.Rate_Hour__c = (Decimal) userData.get('Rate_Hour__c');
       newUser.IsActive = (Boolean) userData.get('IsActive');
 
-      Id profileId = [
-        SELECT Id
-        FROM Profile
-        WHERE Name = 'Project Manager'
-        LIMIT 1
-      ]
-      .Id;
       newUser.ProfileId = profileId;
-
-      Id roleId = [SELECT Id FROM UserRole WHERE Name = 'Developer' LIMIT 1].Id;
       newUser.UserRoleId = roleId;
 
       newUsers.add(newUser);
@@ -67,14 +67,20 @@ public class ResourceServiceTest {
 
     insert newUsers;
   }
+  // get available resources frees before project start
   // Project              S-------E
-  // User       s---------e
-  // User                         s---------e
-  // User3    s--------e      s---------e
-  // User           s---------e
+  // Erika      s---------e
+  // Max                        s---------e
 
-  // User2    s--------e             s---------e
-  // User1      [---]   [---]  [---]  [----]
+  // available resources during project duration(widthout repeted)
+  // Project              S-------E
+  // Erika      s---------e
+  // Max                          s---------e
+
+  // available resources during project duration(width repeted)
+  // Project              S-------E
+  // Erika      s---------e       s---------e
+  // Max                          s---------e
 
   @isTest
   static void shoudlReturnErikaForProjectFrom2304To2604() {
@@ -173,11 +179,73 @@ public class ResourceServiceTest {
 
     Test.stopTest();
 
-    // Id actualErikaId = availableResources.get(0).id;
-    // Id actualMaxId = availableResources.get(1).id;
+    Id actualErikaId = availableResources.get(0).id;
+    Id actualMaxId = availableResources.get(1).id;
 
     System.assertEquals(2, availableResources.size(), 'wrong list size');
-    // System.assertEquals(erikaId, actualId, 'wrong Id');
+    System.assertEquals(erikaId, actualErikaId, 'wrong Id');
+    System.assertEquals(maxId, actualMaxId, 'wrong Id');
   }
 
+  @isTest
+  static void shoudlReturnErikaOnesAndMaxForProjectFrom2304To2604() {
+    Id profileId = [
+      SELECT Id
+      FROM Profile
+      WHERE Name = 'Project Manager'
+      LIMIT 1
+    ]
+    .Id;
+    List<User> projectManagers = [
+      SELECT Id
+      FROM User
+      WHERE ProfileId = :profileId
+    ];
+
+    Id erikaId = projectManagers.get(0).Id;
+    Id maxId = projectManagers.get(1).Id;
+
+    List<Project_Resources__c> prToInsert = new List<Project_Resources__c>();
+    Project_Resources__c erikabussy = new Project_Resources__c(
+      Start_Date__c = Date.newInstance(2023, 4, 17),
+      End_Date__c = Date.newInstance(2023, 4, 23),
+      Resource__c = erikaId
+    );
+    Project_Resources__c erikabussy2 = new Project_Resources__c(
+      Start_Date__c = Date.newInstance(2023, 4, 27),
+      End_Date__c = Date.newInstance(2023, 4, 29),
+      Resource__c = erikaId
+    );
+
+    Project_Resources__c maxbussy = new Project_Resources__c(
+      Start_Date__c = Date.newInstance(2023, 4, 26),
+      End_Date__c = Date.newInstance(2023, 4, 30),
+      Resource__c = maxId
+    );
+    prToInsert.add(erikabussy);
+    prToInsert.add(erikabussy2);
+
+    prToInsert.add(maxbussy);
+
+    insert prToInsert;
+
+    Test.startTest();
+
+    Date projectStartDate = Date.newInstance(2023, 4, 23);
+    Date projectEndDate = Date.newInstance(2023, 4, 26);
+
+    List<ResourceWrapper> availableResources = ResourceService.queryAvailableResources(
+      projectStartDate,
+      projectEndDate
+    );
+
+    Test.stopTest();
+
+    Id actualErikaId = availableResources.get(0).id;
+    Id actualMaxId = availableResources.get(1).id;
+
+    System.assertEquals(2, availableResources.size(), 'wrong list size');
+    System.assertEquals(erikaId, actualErikaId, 'wrong Id');
+    System.assertEquals(maxId, actualMaxId, 'wrong Id');
+  }
 }
