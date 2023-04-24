@@ -46,7 +46,7 @@ public with sharing class ProjectService {
       Map<String, List<ResourceWrapper>> resourcesByRole = new Map<String, List<ResourceWrapper>>();
 
       for (ResourceWrapper resource : availableResources) {
-        String roleName = roleNameById.get(resource.Id);
+        String roleName = roleNameById.get(resource.roleId);
         if (resourcesByRole.containsKey(roleName)) {
           resourcesByRole.get(roleName).add(resource);
         } else {
