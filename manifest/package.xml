@@ -6,6 +6,14 @@
 	</types>
 	<types>
 		<members>*</members>
+		<name>ApexClass</name>
+	</types>
+	<types>
+		<members>Gestion_de_Proyectos</members>
+		<name>CustomApplication</name>
+	</types>
+	<types>
+		<members>*</members>
 		<name>FlexiPage</name>
 	</types>
 	<types>
