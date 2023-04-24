@@ -180,17 +180,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Resource_Name__c</field>
-            <table>Project__c.Project_Resources__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>ProjectLineItem__c</field>
-            <table>Project__c.Project_Resources__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Rol__c</field>
             <table>Project__c.Project_Resources__r</table>
         </columns>
         <masterLabel>Project Resources</masterLabel>

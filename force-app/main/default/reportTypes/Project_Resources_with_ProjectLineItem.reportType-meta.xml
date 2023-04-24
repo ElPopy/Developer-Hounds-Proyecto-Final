@@ -143,16 +143,6 @@
             <field>Start_Date__c</field>
             <table>ProjectLineItem__c.Project_Resources__r</table>
         </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Resource_Name__c</field>
-            <table>ProjectLineItem__c.Project_Resources__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Rol__c</field>
-            <table>ProjectLineItem__c.Project_Resources__r</table>
-        </columns>
         <masterLabel>Project Resources</masterLabel>
     </sections>
 </ReportType>
