@@ -1,5 +1,6 @@
 public with sharing class ResourceService {
 
+
    
 
 
@@ -141,6 +142,7 @@ public static Map<String, List<User>> getResources(Project__c project) {
 
   return resourceMap;
       
+
         
 
 
