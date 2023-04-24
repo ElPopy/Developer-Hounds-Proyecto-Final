@@ -1,5 +1,21 @@
 public with sharing class TestUtil {
   public static void createUsers(List<Map<String, Object>> userDataList) {
+    Set<String> roleNames = new Set<String>{
+      RoleName.PROJET_MANAGER,
+      RoleName.DEVELOPER,
+      RoleName.ARCHITECH,
+      RoleName.CONSULTANT
+    };
+    List<UserRole> roleList = [
+      SELECT Id, Name
+      FROM UserRole
+      WHERE Name IN :roleNames
+    ];
+    Map<String, Id> roleId = new Map<String, Id>();
+    for (UserRole role : roleList) {
+      roleId.put(role.Name, role.Id);
+    }
+
     List<User> newUsers = new List<User>();
 
     for (Map<String, Object> userData : userDataList) {
@@ -21,7 +37,7 @@ public with sharing class TestUtil {
       newUser.Rate_Hour__c = (Decimal) userData.get('Rate_Hour__c');
       newUser.IsActive = true;
       newUser.ProfileId = (Id) userData.get('ProfileId');
-      newUser.UserRoleId = (Id) userData.get('UserRoleId');
+      newUser.UserRoleId = roleId.get((String) userData.get('UserRole'));
 
       newUsers.add(newUser);
     }

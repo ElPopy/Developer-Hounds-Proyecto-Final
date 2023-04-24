@@ -13,8 +13,10 @@ public with sharing class ProjectService {
       WHERE Name IN :roleNames
     ];
     Map<String, Id> roleIdByName = new Map<String, Id>();
+    Map<Id, String> roleNameById = new Map<Id, String>();
     for (UserRole role : roleList) {
       roleIdByName.put(role.Name, role.Id);
+      roleNameById.put(role.Id, role.Name);
     }
     try {
       Project__c project = [
@@ -30,16 +32,33 @@ public with sharing class ProjectService {
       ];
       ProjectWrapper wrapper = new ProjectWrapper(project);
 
-      List<Id> roleIds = new List<Id>();
+      Set<Id> roleIds = new Set<Id>();
       for (PositionWrapper position : wrapper.projectLineItems) {
         roleIds.add(roleIdByName.get(position.role));
       }
 
-      ResourceService.queryAvailableResources(
+      List<ResourceWrapper> availableResources = ResourceService.queryAvailableResources(
         project.Start_Date__c,
         project.End_Date__c,
         roleIds
       );
+
+      Map<String, List<ResourceWrapper>> resourcesByRole = new Map<String, List<ResourceWrapper>>();
+
+      for (ResourceWrapper resource : availableResources) {
+        String roleName = roleNameById.get(resource.Id);
+        if (resourcesByRole.containsKey(roleName)) {
+          resourcesByRole.get(roleName).add(resource);
+        } else {
+          resourcesByRole.put(roleName, new List<ResourceWrapper>{ resource });
+        }
+      }
+
+      for (PositionWrapper position : wrapper.projectLineItems) {
+        if (resourcesByRole.containsKey(position.role)) {
+          position.availableResource = resourcesByRole.get(position.role);
+        }
+      }
 
       return JSON.serialize(wrapper);
     } catch (Exception e) {

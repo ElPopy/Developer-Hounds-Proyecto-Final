@@ -13,23 +13,7 @@ public class ResourceServiceTest {
       WHERE Name = 'Project Manager'
       LIMIT 1
     ]
-    .Id;
-
-    Set<String> roleNames = new Set<String>{
-      PROJET_MANAGER,
-      DEVELOPER,
-      ARCHITECH,
-      CONSULTANT
-    };
-    List<UserRole> roleList = [
-      SELECT Id, Name
-      FROM UserRole
-      WHERE Name IN :roleNames
-    ];
-    Map<String, Id> roleId = new Map<String, Id>();
-    for (UserRole role : roleList) {
-      roleId.put(role.Name, role.Id);
-    }
+    .Id;    
 
     TestUtil.createUsers(
       new List<Map<String, Object>>{
@@ -37,13 +21,13 @@ public class ResourceServiceTest {
           'FirstName' => 'Erika',
           'Rate_Hour__c' => 10,
           'ProfileId' => pmProfileId,
-          'UserRoleId' => roleId.get(DEVELOPER)
+          'UserRole' => RoleName.DEVELOPER
         },
         new Map<String, Object>{
           'FirstName' => 'Max',
           'Rate_Hour__c' => 9,
           'ProfileId' => pmProfileId,
-          'UserRoleId' => roleId.get(CONSULTANT)
+          'UserRole' => RoleName.CONSULTANT
         }
       }
     );
