@@ -250,6 +250,11 @@
         <field>Project__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.Rate_Hour__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Experience Profile Manager</label>
     <license>Salesforce</license>
@@ -289,6 +294,10 @@
         <object>Project__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <tabSettings>
+        <tab>Project_Resources__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
     <tabSettings>
         <tab>Project__c</tab>
         <visibility>Visible</visibility>

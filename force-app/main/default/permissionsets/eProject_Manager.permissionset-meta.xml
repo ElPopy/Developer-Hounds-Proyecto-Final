@@ -185,18 +185,8 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Project_Resources__c.Resource_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Project_Resources__c.Resource__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Project_Resources__c.Rol__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
