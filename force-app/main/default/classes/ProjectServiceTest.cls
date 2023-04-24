@@ -1,50 +1,7 @@
 @isTest
 public class ProjectServiceTest {
-  static final String PROJET_MANAGER = 'Project_Manager';
-  static final String DEVELOPER = 'Developer';
-  static final String ARCHITECH = 'Arquitect';
-  static final String CONSULTANT = 'Consultant';
-
   @testSetup
   static void setup() {
-    Id pmProfileId = [
-      SELECT Id
-      FROM Profile
-      WHERE Name = 'Project Manager'
-      LIMIT 1
-    ]
-    .Id;
-
-    Set<String> roleNames = new Set<String>{
-      PROJET_MANAGER,
-      DEVELOPER,
-      ARCHITECH,
-      CONSULTANT
-    };
-    List<UserRole> roleList = [
-      SELECT Id, Name
-      FROM UserRole
-      WHERE Name IN :roleNames
-    ];
-    Map<String, Id> roleId = new Map<String, Id>();
-    for (UserRole role : roleList) {
-      roleId.put(role.Name, role.Id);
-    }
-
-    TestUtil.createUsers(
-      new List<Map<String, Object>>{
-        new Map<String, Object>{
-          'FirstName' => 'Rama',
-          'Rate_Hour__c' => 11,
-          'ProfileId' => pmProfileId,
-          'UserRoleId' => roleId.get(CONSULTANT)
-        }
-      }
-    );
-  }
-
-  @isTest
-  static void shouldCreateProjects() {
     TestUtil.createProjects(
       new List<Map<String, Object>>{
         new Map<String, Object>{
@@ -53,7 +10,45 @@ public class ProjectServiceTest {
         }
       }
     );
+  }
+
+  @isTest
+  static void shouldCreateProjects() {
     List<Project__c> projects = [SELECT Start_Date__c FROM Project__c];
     System.assertEquals(1, projects.size(), 'wrong size');
+  }
+
+  @isTest
+  static void shouldreturn100HoursOfConsultant() {
+    List<Project__c> projects = [SELECT Id FROM Project__c];
+    Id projectId = projects.get(0).Id;
+
+    ProjectLineItem__c newPosition = new ProjectLineItem__c();
+    newPosition.Project__c = projectId;
+    newPosition.Rol__c = RoleName.CONSULTANT;
+    newPosition.RequiredHoursxRol__c = 250;
+    newPosition.AssignedHousxRol__c = 100;
+
+    insert newPosition;
+
+    Test.startTest();
+
+    String response = ProjectService.getAllocationData(projectId);
+
+    Test.stopTest();
+
+    ProjectWrapper project = (ProjectWrapper) JSON.deserializeStrict(
+      response,
+      ProjectWrapper.class
+    );
+    List<PositionWrapper> positions = project.projectLineItems;
+    String positionId = positions.get(0).positionId;
+    String role = positions.get(0).role;
+    Decimal soldHoursToCover = positions.get(0).soldHoursToCover;
+
+    System.assertEquals(1, positions.size(), 'wrong positions size');
+    System.assertEquals(newPosition.Id, positionId, 'wrong position Id');
+    System.assertEquals(RoleName.CONSULTANT, role, 'wrong role');
+    System.assertEquals(150, soldHoursToCover, 'wrong required hours');
   }
 }

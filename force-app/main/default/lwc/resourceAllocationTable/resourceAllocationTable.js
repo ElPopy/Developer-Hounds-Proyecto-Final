@@ -4,9 +4,9 @@ const project = {
   projectId: "project001",
   projectLineItems: [
     {
-      projectLineItemId: "pli001",
+      positionId: "pli001",
       role: "Consultant",
-      requiredHours: 250,
+      soldHoursToCover: 250,
       availableResource: [
         {
           id: "resource23",
@@ -30,9 +30,9 @@ const project = {
       ]
     },
     {
-      projectLineItemId: "pli002",
+      positionId: "pli002",
       role: "Developer",
-      requiredHours: 500,
+      soldHoursToCover: 500,
       availableResource: [
         {
           id: "resource20",
