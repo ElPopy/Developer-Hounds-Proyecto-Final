@@ -1,27 +1,33 @@
 public with sharing class ResourceService {
   public static List<ResourceWrapper> queryAvailableResources(
     Date projectStartDate,
-    Date projectEndDate
+    Date projectEndDate,
+    Set<Id> roleIds
   ) {
     Map<Id, ResourceWrapper> availableResources = new Map<Id, ResourceWrapper>();
 
-    List<Project_Resources__c> projectResources = [
+    List<User> resources = [
       SELECT
-        Resource__c,
-        Resource__r.FirstName,
-        Resource__r.LastName,
-        Resource__r.Rate_Hour__c,
-        Resource__r.UserRoleId
-      FROM Project_Resources__c
-      WHERE End_Date__c <= :projectStartDate OR Start_Date__c >= :projectEndDate
+        FirstName,
+        LastName,
+        Rate_Hour__c,
+        UserRoleId,
+        (
+          SELECT Id
+          FROM Project_Resources__r
+          WHERE
+            (Start_Date__c > :projectStartDate
+            AND Start_Date__c < :projectEndDate)
+            OR (End_Date__c > :projectStartDate
+            AND End_Date__c < :projectEndDate)
+        )
+      FROM User
+      WHERE UserRoleId IN :roleIds
     ];
 
-    for (Project_Resources__c resource : projectResources) {
-      if (!availableResources.containsKey(resource.Resource__c)) {
-        availableResources.put(
-          resource.Resource__c,
-          new ResourceWrapper(resource)
-        );
+    for (User resource : resources) {
+      if (resource.Project_Resources__r.size() == 0) {
+        availableResources.put(resource.Id, new ResourceWrapper(resource));
       }
     }
 

@@ -45,10 +45,13 @@ public class ProjectServiceTest {
     String positionId = positions.get(0).positionId;
     String role = positions.get(0).role;
     Decimal soldHoursToCover = positions.get(0).soldHoursToCover;
+    List<ResourceWrapper> availableResources = positions.get(0)
+      .availableResource;
 
     System.assertEquals(1, positions.size(), 'wrong positions size');
     System.assertEquals(newPosition.Id, positionId, 'wrong position Id');
     System.assertEquals(RoleName.CONSULTANT, role, 'wrong role');
     System.assertEquals(150, soldHoursToCover, 'wrong required hours');
+    System.assertEquals(1, availableResources.size(), 'bad available size');
   }
 }
