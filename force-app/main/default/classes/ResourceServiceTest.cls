@@ -1,71 +1,52 @@
 @isTest
 public class ResourceServiceTest {
+  static final String PROJET_MANAGER = 'Project_Manager';
+  static final String DEVELOPER = 'Developer';
+  static final String ARCHITECH = 'Arquitect';
+  static final String CONSULTANT = 'Consultant';
+
   @testSetup
   static void setup() {
-    List<Map<String, Object>> userDataList = new List<Map<String, Object>>{
-      new Map<String, Object>{
-        'FirstName' => 'Erika',
-        'LastName' => 'Doe',
-        'Email' => 'erika@example.com',
-        'Username' => 'erika@cloudconsulting.com',
-        'Alias' => 'erid',
-        'CommunityNickname' => 'eridoe',
-        'LocaleSidKey' => 'en_US',
-        'TimeZoneSidKey' => 'America/Los_Angeles',
-        'EmailEncodingKey' => 'UTF-8',
-        'LanguageLocaleKey' => 'en_US',
-        'Rate_Hour__c' => 10,
-        'IsActive' => true
-      },
-      new Map<String, Object>{
-        'FirstName' => 'Max',
-        'LastName' => 'Smith',
-        'Email' => 'max@example.com',
-        'Username' => 'max@couldconsulting.com',
-        'Alias' => 'mbe',
-        'CommunityNickname' => 'maxsmith',
-        'LocaleSidKey' => 'en_US',
-        'TimeZoneSidKey' => 'America/Los_Angeles',
-        'EmailEncodingKey' => 'UTF-8',
-        'LanguageLocaleKey' => 'en_US',
-        'Rate_Hour__c' => 9,
-        'IsActive' => true
-      }
-    };
-
-    List<User> newUsers = new List<User>();
-
-    Id profileId = [
+    Id pmProfileId = [
       SELECT Id
       FROM Profile
       WHERE Name = 'Project Manager'
       LIMIT 1
     ]
     .Id;
-    Id roleId = [SELECT Id FROM UserRole WHERE Name = 'Developer' LIMIT 1].Id;
 
-    for (Map<String, Object> userData : userDataList) {
-      User newUser = new User();
-      newUser.FirstName = (String) userData.get('FirstName');
-      newUser.LastName = (String) userData.get('LastName');
-      newUser.Email = (String) userData.get('Email');
-      newUser.Username = (String) userData.get('Username');
-      newUser.Alias = (String) userData.get('Alias');
-      newUser.CommunityNickname = (String) userData.get('CommunityNickname');
-      newUser.LocaleSidKey = (String) userData.get('LocaleSidKey');
-      newUser.TimeZoneSidKey = (String) userData.get('TimeZoneSidKey');
-      newUser.EmailEncodingKey = (String) userData.get('EmailEncodingKey');
-      newUser.LanguageLocaleKey = (String) userData.get('LanguageLocaleKey');
-      newUser.Rate_Hour__c = (Decimal) userData.get('Rate_Hour__c');
-      newUser.IsActive = (Boolean) userData.get('IsActive');
-
-      newUser.ProfileId = profileId;
-      newUser.UserRoleId = roleId;
-
-      newUsers.add(newUser);
+    Set<String> roleNames = new Set<String>{
+      PROJET_MANAGER,
+      DEVELOPER,
+      ARCHITECH,
+      CONSULTANT
+    };
+    List<UserRole> roleList = [
+      SELECT Id, Name
+      FROM UserRole
+      WHERE Name IN :roleNames
+    ];
+    Map<String, Id> roleId = new Map<String, Id>();
+    for (UserRole role : roleList) {
+      roleId.put(role.Name, role.Id);
     }
 
-    insert newUsers;
+    TestUtil.createUsers(
+      new List<Map<String, Object>>{
+        new Map<String, Object>{
+          'FirstName' => 'Erika',
+          'Rate_Hour__c' => 10,
+          'ProfileId' => pmProfileId,
+          'UserRoleId' => roleId.get(DEVELOPER)
+        },
+        new Map<String, Object>{
+          'FirstName' => 'Max',
+          'Rate_Hour__c' => 9,
+          'ProfileId' => pmProfileId,
+          'UserRoleId' => roleId.get(CONSULTANT)
+        }
+      }
+    );
   }
   // get available resources frees before project start
   // Project              S-------E
@@ -82,6 +63,9 @@ public class ResourceServiceTest {
   // Erika      s---------e       s---------e
   // Max                          s---------e
 
+  // Case without test
+  // Project              S-------E
+  //                          s---e
   @isTest
   static void shoudlReturnErikaForProjectFrom2304To2604() {
     Id profileId = [
