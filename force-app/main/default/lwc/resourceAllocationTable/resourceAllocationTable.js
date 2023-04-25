@@ -1,6 +1,6 @@
 import getAllocationData from "@salesforce/apex/ProjectService.getAllocationData";
 import { LightningElement, api, wire } from "lwc";
-const project = {
+/* incoming data const project = {
   projectId: "project001",
   projectLineItems: [
     {
@@ -49,31 +49,30 @@ const project = {
       ]
     }
   ]
-};
-const alloProjectResources = {
-  position001: [
-    {
-      resourceId: "resource23",
-      projectId: "project001",
-      startDate: "22/4/23",
-      endDate: "25/4/23"
-    }
-  ],
-  position002: [
-    {
-      resourceId: "resource20",
-      projectId: "project001",
-      startDate: "22/4/23",
-      endDate: "23/4/23"
-    },
-    {
-      resourceId: "resource19",
-      projectId: "project001",
-      startDate: "22/4/23",
-      endDate: "27/4/23"
-    }
-  ]
-};
+}; */
+/* outcoming data const projectAllocations = {
+  project001: {
+    position001: [
+      {
+        resourceId: "resource23",
+        startDate: "22/4/23",
+        endDate: "25/4/23"
+      }
+    ],
+    position002: [
+      {
+        resourceId: "resource20",
+        startDate: "22/4/23",
+        endDate: "23/4/23"
+      },
+      {
+        resourceId: "resource19",
+        startDate: "22/4/23",
+        endDate: "27/4/23"
+      }
+    ]
+  }
+}; */
 
 export default class ResourceAllocationTable extends LightningElement {
   @api recordId;
