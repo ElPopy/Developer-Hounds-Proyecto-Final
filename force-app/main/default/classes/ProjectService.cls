@@ -66,4 +66,26 @@ public with sharing class ProjectService {
       throw new AuraHandledException(e.getMessage());
     }
   }
+
+  @AuraEnabled
+  public static String allocateResources(Id projectId, String allocationData) {
+    return '';
+  }
+
+  public static Map<Id, List<Map<String, Object>>> parseAllocationData(
+    String allocationData
+  ) {
+    Map<Id, List<Map<String, Object>>> result = new Map<Id, List<Map<String, Object>>>();
+
+    Map<Id, List<Map<String, String>>> positions = (Map<Id, List<Map<String, String>>>) JSON.deserializeStrict(
+      allocationData,
+      Map<Id, List<Map<String, String>>>.class
+    );
+
+    System.debug('>>>>>>>>>>>>>>>>>positions' + positions);
+
+    return result;
+  }
 }
+
+
