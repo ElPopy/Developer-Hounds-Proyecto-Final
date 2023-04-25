@@ -67,25 +67,50 @@ public with sharing class ProjectService {
     }
   }
 
-  @AuraEnabled
+  @AuraEnabled(cacheable=false)
   public static String allocateResources(Id projectId, String allocationData) {
-    return '';
+    List<Project_Resources__c> projectResorces = new List<Project_Resources__c>();
+
+    Map<Id, List<Map<String, String>>> allocationsBypositionId = parseAllocationData(
+      allocationData
+    );
+
+    for (Id positionId : allocationsBypositionId.keySet()) {
+      List<Map<String, String>> allocations = allocationsBypositionId.get(
+        positionId
+      );
+      for (Map<String, String> allocation : allocations) {
+        System.debug('>>>>>>>>>>>>>>>>>allocation' + allocation);
+        projectResorces.add(
+          createProjectResource(projectId, positionId, allocation)
+        );
+      }
+    }
+
+    System.debug('>>>>>>>>>>>>>>>>>projectResources' + projectResorces);
+
+    return JSON.serialize(projectResorces);
   }
 
-  public static Map<Id, List<Map<String, Object>>> parseAllocationData(
+  public static Project_Resources__c createProjectResource(
+    Id projectId,
+    Id positionId,
+    Map<String, String> allocation
+  ) {
+    Project_Resources__c newProjectResource = new Project_Resources__c(
+      Resource__c = (Id) allocation.get('resourceId'),
+      Project__c = projectId,
+      ProjectLineItem__c = positionId
+    );
+    return newProjectResource;
+  }
+
+  public static Map<Id, List<Map<String, String>>> parseAllocationData(
     String allocationData
   ) {
-    Map<Id, List<Map<String, Object>>> result = new Map<Id, List<Map<String, Object>>>();
-
-    Map<Id, List<Map<String, String>>> positions = (Map<Id, List<Map<String, String>>>) JSON.deserializeStrict(
+    return (Map<Id, List<Map<String, String>>>) JSON.deserializeStrict(
       allocationData,
       Map<Id, List<Map<String, String>>>.class
     );
-
-    System.debug('>>>>>>>>>>>>>>>>>positions' + positions);
-
-    return result;
   }
 }
-
-
