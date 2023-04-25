@@ -1,8 +1,57 @@
 import getAllocationData from "@salesforce/apex/ProjectService.getAllocationData";
 import { LightningElement, api, wire } from "lwc";
-
-const projectResourcesResult = {
-  pli001: [
+const project = {
+  projectId: "project001",
+  projectLineItems: [
+    {
+      positionId: "position001",
+      role: "Consultant",
+      soldHoursToCover: 250,
+      availableResource: [
+        {
+          id: "resource23",
+          firstName: "Julian",
+          lastName: "Vazquez",
+          rateHour: 10
+          //availableRange: 23 - 25  assignedHours: 22 - 25
+        },
+        {
+          id: "resource22",
+          firstName: "Maria",
+          lastName: "Ramirez",
+          rateHour: 12
+        },
+        {
+          id: "resource21",
+          firstName: "Rodrigo",
+          lastName: "Gomez",
+          rateHour: 9
+        }
+      ]
+    },
+    {
+      positionId: "position002",
+      role: "Developer",
+      soldHoursToCover: 500,
+      availableResource: [
+        {
+          id: "resource20",
+          firstName: "Vinicius",
+          lastName: "Alvareez",
+          rateHour: 8
+        },
+        {
+          id: "resource19",
+          firstName: "Camila",
+          lastName: "Dominguez",
+          rateHour: 15
+        }
+      ]
+    }
+  ]
+};
+const alloProjectResources = {
+  position001: [
     {
       resourceId: "resource23",
       projectId: "project001",
@@ -10,7 +59,7 @@ const projectResourcesResult = {
       endDate: "25/4/23"
     }
   ],
-  pli002: [
+  position002: [
     {
       resourceId: "resource20",
       projectId: "project001",
@@ -30,14 +79,29 @@ export default class ResourceAllocationTable extends LightningElement {
   @api recordId;
 
   project;
+  allocatedProjectResources = {};
+
+  addResource(positionId, resourceList) {
+    this.allocatedProjectResources[positionId] = resourceList;
+
+    console.log(
+      `allocationTable positionId: `,
+      JSON.parse(JSON.stringify(this.allocatedProjectResources))
+    );
+  }
+
+  handleAllocationChange(event) {
+    const { id, resourceList } = event.detail;
+    this.addResource(id, resourceList);
+  }
 
   @wire(getAllocationData, { projectId: "$recordId" })
   wireAllocationData({ data, error }) {
     if (data) {
       this.parseWrapper(data);
-      console.log("resourceAllocation data: ", JSON.parse(data));
+      // console.log("resourceAllocation data: ", JSON.parse(data));
     } else if (error) {
-      console.log("resourceAllocation error: ", error);
+      // console.log("resourceAllocation error: ", error);
     }
   }
 

@@ -1,16 +1,9 @@
 <template>
   <template for:each={positions} for:item="position">
-    <lightning-card key={position.projectLineItemId}>
-      <h1>{position.role} - Required Hours: {position.soldHoursToCover}</h1>
-
-      <template for:each={position.availableResource} for:item="resource">
-        <lightning-card key={resource.id}>
-          <p>
-            Name: {resource.firstName} {resource.lastName} - 
-            <span> Rate/Hour: {resource.rateHour}</span>
-          </p>
-        </lightning-card>
-      </template>
-    </lightning-card>
+    <div key={position.projectLineItemId}>
+      <c-position-entry 
+      onallocationchange={handleAllocationChange}
+      position={position}></c-position-entry>
+    </div>
   </template>
 </template>
