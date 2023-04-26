@@ -1,4 +1,7 @@
 public with sharing class ProjectService {
+  static final String START_DATE = 'startDate';
+  static final String END_DATE = 'endDate';
+
   @AuraEnabled(cacheable=true)
   public static String getAllocationData(Id projectId) {
     Set<String> roleNames = new Set<String>{
@@ -69,6 +72,7 @@ public with sharing class ProjectService {
   @AuraEnabled(cacheable=false)
   public static String allocateResources(Id projectId, String allocationData) {
     List<Project_Resources__c> projectResorces = new List<Project_Resources__c>();
+    Map<Id, Decimal> assignedHoursByPositionId = new Map<Id, Decimal>();
 
     Project__c project = [
       SELECT Id, Project_Manager__c
@@ -76,24 +80,40 @@ public with sharing class ProjectService {
       WHERE Id = :projectId
     ];
 
-    Map<Id, List<Map<String, String>>> allocationsBypositionId = parseAllocationData(
-      allocationData
-    );
+    Map<Id, List<Map<String, String>>> allocationsByPositionId = parseAllocationData(allocationData);
 
-    for (Id positionId : allocationsBypositionId.keySet()) {
-      List<Map<String, String>> allocations = allocationsBypositionId.get(
-        positionId
-      );
+    for (Id positionId : allocationsByPositionId.keySet()) {
+      List<Map<String, String>> allocations = allocationsByPositionId.get(positionId);
+
       for (Map<String, String> allocation : allocations) {
-        projectResorces.add(
-          createProjectResource(project, positionId, allocation)
-        );
+        addHours(positionId, assignedHoursByPositionId, allocation);
+        projectResorces.add(createProjectResource(project, positionId, allocation));
       }
     }
 
-    Database.insert(projectResorces);
+    System.debug('+++++++++++++++assignedHoursByPositionId' + assignedHoursByPositionId);
+
+    // Database.insert(projectResorces);
 
     return JSON.serialize(projectResorces);
+  }
+
+  public static void addHours(Id positionId, Map<Id, Decimal> assignedHoursByPositionId, Map<String, String> allocation) {
+    Date startDate = getDate(START_DATE, allocation);
+    Date endDate = getDate(END_DATE, allocation);    
+    Decimal assignedHours = busnessHours(startDate, endDate);
+
+    if (assignedHoursByPositionId.containsKey(positionId)) {
+      Decimal newHours = assignedHoursByPositionId.get(positionId) + assignedHours;
+      assignedHoursByPositionId.put(positionId, newHours);
+    } else {
+      assignedHoursByPositionId.put(positionId, assignedHours);
+    }
+  }
+
+  public static Decimal busnessHours(Date startDate, Date endDate) {
+    Decimal hoursPerDay = 8;
+    return startDate.daysBetween(endDate) * hoursPerDay;
   }
 
   public static Project_Resources__c createProjectResource(
@@ -108,14 +128,19 @@ public with sharing class ProjectService {
       OwnerId = project.Project_Manager__c
     );
 
-    Date startDate = Date.parse(allocation.get('startDate'));
-    Date endDate = Date.parse(allocation.get('endDate'));
+    Date startDate = getDate(START_DATE, allocation);
+    Date endDate = getDate(END_DATE, allocation);
 
     newProjectResource.Start_Date__c = startDate;
     newProjectResource.End_Date__c = endDate;
 
     return newProjectResource;
   }
+
+  public static Date getDate(String key, Map<String, String> allocation) {
+    return Date.parse(allocation.get(key));
+  }
+  
 
   public static Map<Id, List<Map<String, String>>> parseAllocationData(
     String allocationData
