@@ -9,7 +9,13 @@ public with sharing class DebugConsole {
     );
 
     // delete all ProjectResourses
-    List<Project_Resources__c> pr = [SELECT Id FROM Project_Resources__c];
-    delete pr;
+    List<Project_Resources__c> prs = [SELECT Id FROM Project_Resources__c];
+    delete prs;
+    // clear assigned hours
+    List<ProjectLineItem__c> plis = [SELECT Id, AssignedHousxRol__c FROM ProjectLineItem__c];
+    for (ProjectLineItem__c item : plis) {
+      item.AssignedHousxRol__c = 0.0;
+    }
+    update plis;
   }
 }
