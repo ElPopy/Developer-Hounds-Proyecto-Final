@@ -91,9 +91,22 @@ public with sharing class ProjectService {
       }
     }
 
-    System.debug('+++++++++++++++assignedHoursByPositionId' + assignedHoursByPositionId);
-
-    // Database.insert(projectResorces);
+    
+    Database.insert(projectResorces);
+    
+    Set<Id> itemIds = assignedHoursByPositionId.keySet();
+    List<ProjectLineItem__c> projectLineItems = [
+      SELECT AssignedHousxRol__c 
+      FROM ProjectLineItem__c 
+      WHERE Id IN :itemIds
+    ];
+      
+    
+    for (ProjectLineItem__c item : projectLineItems) {
+      item.AssignedHousxRol__c = assignedHoursByPositionId.get(item.Id);
+    }
+    
+    Database.update(projectLineItems);
 
     return JSON.serialize(projectResorces);
   }
