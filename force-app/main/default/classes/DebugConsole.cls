@@ -7,5 +7,9 @@ public with sharing class DebugConsole {
       '>>>>>>>>>>>>allocateResourse response' +
       ProjectService.allocateResources(projectId, allocation)
     );
+
+    // delete all ProjectResourses
+    List<Project_Resources__c> pr = [SELECT Id FROM Project_Resources__c];
+    delete pr;
   }
 }

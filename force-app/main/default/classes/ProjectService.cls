@@ -70,6 +70,12 @@ public with sharing class ProjectService {
   public static String allocateResources(Id projectId, String allocationData) {
     List<Project_Resources__c> projectResorces = new List<Project_Resources__c>();
 
+    Project__c project = [
+      SELECT Id, Project_Manager__c
+      FROM Project__c
+      WHERE Id = :projectId
+    ];
+
     Map<Id, List<Map<String, String>>> allocationsBypositionId = parseAllocationData(
       allocationData
     );
@@ -80,7 +86,7 @@ public with sharing class ProjectService {
       );
       for (Map<String, String> allocation : allocations) {
         projectResorces.add(
-          createProjectResource(projectId, positionId, allocation)
+          createProjectResource(project, positionId, allocation)
         );
       }
     }
@@ -91,14 +97,15 @@ public with sharing class ProjectService {
   }
 
   public static Project_Resources__c createProjectResource(
-    Id projectId,
+    Project__c project,
     Id positionId,
     Map<String, String> allocation
   ) {
     Project_Resources__c newProjectResource = new Project_Resources__c(
       Resource__c = (Id) allocation.get('resourceId'),
-      Project__c = projectId,
-      ProjectLineItem__c = positionId
+      Project__c = project.Id,
+      ProjectLineItem__c = positionId,
+      OwnerId = project.Project_Manager__c
     );
 
     Date startDate = Date.parse(allocation.get('startDate'));
