@@ -1,16 +1,26 @@
 <template>
-  <template for:each={positions} for:item="position">
-    <lightning-card key={position.projectLineItemId}>
-      <h1>{position.role} - Required Hours: {position.soldHoursToCover}</h1>
-
-      <template for:each={position.availableResource} for:item="resource">
-        <lightning-card key={resource.id}>
-          <p>
-            Name: {resource.firstName} {resource.lastName} - 
-            <span> Rate/Hour: {resource.rateHour}</span>
-          </p>
-        </lightning-card>
+  <lightning-card>
+    <template if:false={isLoading}>
+      <template for:each={positions} for:item="position">
+        <div key={position.projectLineItemId}>
+          <c-position-entry
+            onallocationchange={handleAllocationChange}
+            position={position}
+          ></c-position-entry>
+        </div>
       </template>
-    </lightning-card>
-  </template>
+    </template>
+    <template if:true={isLoading}>
+      <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+    <div slot="footer">
+      <lightning-button
+        variant="success"
+        label="Allocate"
+        title="Allocate Resourses"
+        onclick={handleClick}
+        class="slds-m-left_x-small"
+      ></lightning-button>
+    </div>
+  </lightning-card>
 </template>
