@@ -1,6 +1,6 @@
 <template>
   <lightning-card>
-    <h1>{role} - Hours To Cover : {soldHoursToCover}</h1>
+    <h1 slot="title">{role} - Hours To Cover : {soldHoursToCover}</h1>
 
     <template for:each={availableResource} for:item="resource">
       <div key={resource.id}>

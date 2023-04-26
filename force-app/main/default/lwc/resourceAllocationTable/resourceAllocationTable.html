@@ -1,9 +1,26 @@
 <template>
-  <template for:each={positions} for:item="position">
-    <div key={position.projectLineItemId}>
-      <c-position-entry 
-      onallocationchange={handleAllocationChange}
-      position={position}></c-position-entry>
+  <lightning-card>
+    <template if:false={isLoading}>
+      <template for:each={positions} for:item="position">
+        <div key={position.projectLineItemId}>
+          <c-position-entry
+            onallocationchange={handleAllocationChange}
+            position={position}
+          ></c-position-entry>
+        </div>
+      </template>
+    </template>
+    <template if:true={isLoading}>
+      <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+    <div slot="footer">
+      <lightning-button
+        variant="success"
+        label="Allocate"
+        title="Allocate Resourses"
+        onclick={handleClick}
+        class="slds-m-left_x-small"
+      ></lightning-button>
     </div>
-  </template>
+  </lightning-card>
 </template>

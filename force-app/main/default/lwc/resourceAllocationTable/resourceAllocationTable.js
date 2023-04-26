@@ -1,6 +1,8 @@
+import allocateResources from "@salesforce/apex/ProjectService.allocateResources";
 import getAllocationData from "@salesforce/apex/ProjectService.getAllocationData";
 import { LightningElement, api, wire } from "lwc";
-/* incoming data const project = {
+// incoming data
+/* const project = {
   projectId: "project001",
   projectLineItems: [
     {
@@ -50,42 +52,44 @@ import { LightningElement, api, wire } from "lwc";
     }
   ]
 }; */
-/* outcoming data const projectAllocations = {
-  project001: {
-    position001: [
-      {
-        resourceId: "resource23",
-        startDate: "22/4/23",
-        endDate: "25/4/23"
-      }
-    ],
-    position002: [
-      {
-        resourceId: "resource20",
-        startDate: "22/4/23",
-        endDate: "23/4/23"
-      },
-      {
-        resourceId: "resource19",
-        startDate: "22/4/23",
-        endDate: "27/4/23"
-      }
-    ]
-  }
+// outcoming data
+/* const allocations = {
+  position001: [
+    {
+      resourceId: "resource23",
+      startDate: "22/4/23",
+      endDate: "25/4/23"
+    }
+  ],
+  position002: [
+    {
+      resourceId: "resource20",
+      startDate: "22/4/23",
+      endDate: "23/4/23"
+    },
+    {
+      resourceId: "resource19",
+      startDate: "22/4/23",
+      endDate: "27/4/23"
+    }
+  ]
 }; */
 
 export default class ResourceAllocationTable extends LightningElement {
   @api recordId;
 
+  isLoading = true;
+  isEnabled = false;
+
   project;
-  allocatedProjectResources = {};
+  allocationsByPosition = {};
 
   addResource(positionId, resourceList) {
-    this.allocatedProjectResources[positionId] = resourceList;
+    this.allocationsByPosition[positionId] = resourceList;
 
     console.log(
       `allocationTable positionId: `,
-      JSON.parse(JSON.stringify(this.allocatedProjectResources))
+      JSON.parse(JSON.stringify(this.allocationsByPosition))
     );
   }
 
@@ -106,6 +110,31 @@ export default class ResourceAllocationTable extends LightningElement {
 
   parseWrapper(data) {
     this.project = JSON.parse(data);
+    this.setLoading(false);
+  }
+
+  handleClick() {
+    this.sendAllocation();
+  }
+
+  sendAllocation() {
+    this.setLoading(true);
+    const allocationData = JSON.stringify(this.allocationsByPosition);
+    allocateResources({ projectId: this.recordId, allocationData })
+      .then((response) => this.handleResponse(response))
+      .catch((error) => this.handleError(error))
+      .finally(() => {
+        this.setLoading(false);
+        this.allocationsByPosition = {};
+      });
+  }
+
+  handleResponse(response) {
+    console.log("allocationTable response", JSON.parse(response));
+  }
+
+  handleError(error) {
+    console.log("allocationTable error", JSON.parse(error));
   }
 
   @api get positions() {
@@ -113,5 +142,20 @@ export default class ResourceAllocationTable extends LightningElement {
       return this.project.projectLineItems;
     }
     return [];
+  }
+
+  // @api get enabled() {
+  //   return this.isEnabled;
+  // }
+  // set enabled(allocations) {
+  //   for (const key in allocations) {
+  //     if (Object.hasOwnProperty.call(allocations, key)) {
+  //       const element = allocations[key];
+  //     }
+  //   }
+  // }
+
+  setLoading(state) {
+    this.isLoading = state;
   }
 }

@@ -74,6 +74,9 @@ public with sharing class ProjectService {
     Map<Id, List<Map<String, String>>> allocationsBypositionId = parseAllocationData(
       allocationData
     );
+    System.debug(
+      '>>>>>>>>>>>>>>>>>allocationByPositionId' + allocationsBypositionId
+    );
 
     for (Id positionId : allocationsBypositionId.keySet()) {
       List<Map<String, String>> allocations = allocationsBypositionId.get(
