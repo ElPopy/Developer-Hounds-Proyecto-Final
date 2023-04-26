@@ -2,7 +2,10 @@
   <lightning-card>
     <p>
       Name: {firstName} {lastName} -
-      <span> Rate/Hour: {rateHour}</span>
+      <span> Rate/Hour: {rateHour} </span>
+
+      <input onchange={handleDate} value={startD} type="date" />
+      <input onchange={handleDateEnd} value={endD} type="date" />
 
       <input onchange={handleChange} type="checkbox" />
     </p>

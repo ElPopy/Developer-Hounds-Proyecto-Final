@@ -62,7 +62,6 @@ public with sharing class ProjectService {
 
       return JSON.serialize(wrapper);
     } catch (Exception e) {
-      System.debug('ProjectService: ' + e.getMessage());
       throw new AuraHandledException(e.getMessage());
     }
   }
@@ -74,23 +73,19 @@ public with sharing class ProjectService {
     Map<Id, List<Map<String, String>>> allocationsBypositionId = parseAllocationData(
       allocationData
     );
-    System.debug(
-      '>>>>>>>>>>>>>>>>>allocationByPositionId' + allocationsBypositionId
-    );
 
     for (Id positionId : allocationsBypositionId.keySet()) {
       List<Map<String, String>> allocations = allocationsBypositionId.get(
         positionId
       );
       for (Map<String, String> allocation : allocations) {
-        System.debug('>>>>>>>>>>>>>>>>>allocation' + allocation);
         projectResorces.add(
           createProjectResource(projectId, positionId, allocation)
         );
       }
     }
 
-    System.debug('>>>>>>>>>>>>>>>>>projectResources' + projectResorces);
+    Database.insert(projectResorces);
 
     return JSON.serialize(projectResorces);
   }
@@ -105,6 +100,13 @@ public with sharing class ProjectService {
       Project__c = projectId,
       ProjectLineItem__c = positionId
     );
+
+    Date startDate = Date.parse(allocation.get('startDate'));
+    Date endDate = Date.parse(allocation.get('endDate'));
+
+    newProjectResource.Start_Date__c = startDate;
+    newProjectResource.End_Date__c = endDate;
+
     return newProjectResource;
   }
 
