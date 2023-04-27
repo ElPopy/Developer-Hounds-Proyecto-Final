@@ -1,13 +1,13 @@
 trigger ProjectResourceTrigger on Project_Resources__c(
-  before insert,
+  after insert,
   before update
 ) {
-  Boolean isBeforeCreate = Trigger.isBefore && Trigger.isInsert;
-  Boolean isBeforeUpdate = Trigger.isBefore && Trigger.isUpdate;
+  Boolean isAfterUpdate = Trigger.isAfter && Trigger.isUpdate;
 
-  ProjectResourceHelper.beforeCreate(isBeforeCreate, Trigger.new);
+  ProjectResourceHelper.afterCreate(Trigger.isInsert, Trigger.new);
+  
   ProjectResourceHelper.beforeUpdate(
-    isBeforeUpdate,
+    isAfterUpdate,
     Trigger.new,
     Trigger.oldMap
   );

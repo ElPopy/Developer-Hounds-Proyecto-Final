@@ -89,25 +89,25 @@ public with sharing class ProjectService {
         Project_Resources__c projectResource = createProjectResource(project, positionId, allocation);
         projectResorces.add(projectResource);
         // better in trigger
-        addHours(assignedHoursByPositionId, projectResource);
+        // addHours(assignedHoursByPositionId, projectResource);
       }
     }
     
     Database.insert(projectResorces);
     
     // better in trigger
-    Set<Id> itemIds = assignedHoursByPositionId.keySet();
-    List<ProjectLineItem__c> projectLineItems = [
-      SELECT AssignedHousxRol__c 
-      FROM ProjectLineItem__c 
-      WHERE Id IN :itemIds
-    ];      
+    // Set<Id> itemIds = assignedHoursByPositionId.keySet();
+    // List<ProjectLineItem__c> projectLineItems = [
+    //   SELECT AssignedHousxRol__c 
+    //   FROM ProjectLineItem__c 
+    //   WHERE Id IN :itemIds
+    // ];      
     
-    for (ProjectLineItem__c item : projectLineItems) {
-      item.AssignedHousxRol__c += assignedHoursByPositionId.get(item.Id);
-    }
+    // for (ProjectLineItem__c item : projectLineItems) {
+    //   item.AssignedHousxRol__c += assignedHoursByPositionId.get(item.Id);
+    // }
     
-    Database.update(projectLineItems);
+    // Database.update(projectLineItems);
     // better in trigger ends
 
     return JSON.serialize(projectResorces);

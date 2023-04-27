@@ -53,13 +53,7 @@ export default class ProjectResource extends LightningElement {
   }
 
   handleDate(event) {
-    const dateData = event.target.value.split("-");
-
-    const year = dateData[0];
-    const month = dateData[1];
-    const day = dateData[2];
-
-    this.start = [month, day, year].join("/");
+    this.start = this.parseDate(event.target.value);
   }
 
   parseDate(frontFormat) {
