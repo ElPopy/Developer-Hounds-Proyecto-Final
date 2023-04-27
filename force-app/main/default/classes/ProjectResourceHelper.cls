@@ -26,11 +26,10 @@ public with sharing class ProjectResourceHelper {
       ];
 
       for (ProjectLineItem__c position : positions) {
-        Decimal h = position.AssignedHousxRol__c;
-        Decimal c = position.Estimated_Cost__c;
-
-        position.AssignedHousxRol__c = h + assignedHoursByPositionId.get(position.Id);
-        position.Estimated_Cost__c = c + estimatedCostByPositionId.get(position.Id);
+        Decimal hours = checkNull(position.AssignedHousxRol__c);
+        Decimal cost = checkNull(position.Estimated_Cost__c);
+        position.AssignedHousxRol__c = hours + assignedHoursByPositionId.get(position.Id);
+        position.Estimated_Cost__c = cost + estimatedCostByPositionId.get(position.Id);
       }
 
       Database.update(positions);
@@ -66,6 +65,14 @@ public with sharing class ProjectResourceHelper {
     Map<Id, Project_Resources__c> oldProjectResourcesMap
   ) {
     if (isBeforeUpdate) {
+    }
+  }
+
+  public static Decimal checkNull(Decimal value) {
+    if (value == null) {
+      return 0.0;
+    } else {
+      return value;
     }
   }
 }

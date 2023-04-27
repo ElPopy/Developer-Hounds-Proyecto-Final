@@ -1,6 +1,6 @@
 import allocateResources from "@salesforce/apex/ProjectService.allocateResources";
 import getAllocationData from "@salesforce/apex/ProjectService.getAllocationData";
-import { LightningElement, api, wire } from "lwc";
+import { LightningElement, api, track } from "lwc";
 // incoming data
 /* const project = {
   projectId: "project001",
@@ -81,8 +81,12 @@ export default class ResourceAllocationTable extends LightningElement {
   isLoading = true;
   isEnabled = false;
 
-  project;
+  @track project;
   allocationsByPosition = {};
+
+  connectedCallback() {
+    this.callAllocationController();
+  }
 
   addResource(positionId, resourceList) {
     this.allocationsByPosition[positionId] = resourceList;
@@ -98,18 +102,18 @@ export default class ResourceAllocationTable extends LightningElement {
     this.addResource(id, resourceList);
   }
 
-  @wire(getAllocationData, { projectId: "$recordId" })
-  wireAllocationData({ data, error }) {
-    if (data) {
-      this.parseWrapper(data);
-      // console.log("resourceAllocation data: ", JSON.parse(data));
-    } else if (error) {
-      // console.log("resourceAllocation error: ", error);
-    }
+  callAllocationController() {
+    this.setLoading(true);
+    const projectId = this.recordId;
+    getAllocationData({ projectId })
+      .then((response) => this.parseWrapper(response))
+      .catch((error) => this.handleError(error))
+      .finally(() => this.setLoading(false));
   }
 
   parseWrapper(data) {
     this.project = JSON.parse(data);
+    console.log("allocationTable parseWrapper", JSON.parse(data));
     this.setLoading(false);
   }
 
@@ -123,17 +127,16 @@ export default class ResourceAllocationTable extends LightningElement {
     allocateResources({ projectId: this.recordId, allocationData })
       .then((response) => this.handleResponse(response))
       .catch((error) => this.handleError(error))
-      .finally(() => {
-        this.setLoading(false);
-        this.allocationsByPosition = {};
-      });
+      .finally(() => (this.allocationsByPosition = {}));
   }
 
   handleResponse(response) {
+    this.callAllocationController();
     console.log("allocationTable response", JSON.parse(response));
   }
 
   handleError(error) {
+    this.setLoading(false);
     console.log("allocationTable error", JSON.parse(error));
   }
 

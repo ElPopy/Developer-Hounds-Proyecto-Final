@@ -5,17 +5,17 @@ export default class ProjectResource extends LightningElement {
 
   allocation;
 
-  startD;
-  endD;
-
   start;
   end;
+
+  startDate;
+  endDate;
 
   handleChange(event) {
     this.allocation = {
       resourceId: this.resource.id,
-      startDate: this.start,
-      endDate: this.end
+      startDate: this.startDate,
+      endDate: this.endDate
     };
     if (event.target.checked) {
       this.dispatchAddResource();
@@ -49,11 +49,11 @@ export default class ProjectResource extends LightningElement {
   }
 
   handleDateEnd(event) {
-    this.end = this.parseDate(event.target.value);
+    this.endDate = this.parseDate(event.target.value);
   }
 
   handleDate(event) {
-    this.start = this.parseDate(event.target.value);
+    this.startDate = this.parseDate(event.target.value);
   }
 
   parseDate(frontFormat) {

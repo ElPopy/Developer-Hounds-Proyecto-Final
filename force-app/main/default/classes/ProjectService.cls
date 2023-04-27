@@ -2,7 +2,7 @@ public with sharing class ProjectService {
   static final String START_DATE = 'startDate';
   static final String END_DATE = 'endDate';
 
-  @AuraEnabled(cacheable=true)
+  @AuraEnabled(cacheable=false)
   public static String getAllocationData(Id projectId) {
     Set<String> roleNames = new Set<String>{
       RoleName.PROJET_MANAGER,
