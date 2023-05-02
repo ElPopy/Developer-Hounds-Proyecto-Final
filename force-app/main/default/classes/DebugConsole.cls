@@ -48,3 +48,4 @@ public with sharing class DebugConsole {
 
   }
 }
+

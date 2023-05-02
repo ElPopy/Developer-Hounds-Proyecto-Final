@@ -66,3 +66,4 @@ export default class ProjectResource extends LightningElement {
     return [month, day, year].join("/");
   }
 }
+

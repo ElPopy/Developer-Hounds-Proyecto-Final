@@ -12,3 +12,4 @@ trigger ProjectResourceTrigger on Project_Resources__c(
     Trigger.oldMap
   );
 }
+

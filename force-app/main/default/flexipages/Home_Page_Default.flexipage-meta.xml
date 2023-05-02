@@ -4,19 +4,15 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>cacheAge</name>
-                    <value>1440</value>
+                    <name>dashboardName</name>
+                    <value>NdwLFvyFqjEOOWYLniASNyXSWCeOYg</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>reportName</name>
-                    <value>Assigned_Hours_VS_Total_Hours_Byj</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showRefreshButton</name>
+                    <name>hideOnError</name>
                     <value>true</value>
                 </componentInstanceProperties>
-                <componentName>flexipage:reportChart</componentName>
-                <identifier>flexipage_reportChart</identifier>
+                <componentName>desktopDashboards:embeddedDashboard</componentName>
+                <identifier>desktopDashboards_embeddedDashboard</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -24,51 +20,11 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>cacheAge</name>
-                    <value>1440</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>reportName</name>
-                    <value>Percentage_Hou_oFN</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showRefreshButton</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:reportChart</componentName>
-                <identifier>flexipage_reportChart2</identifier>
-            </componentInstance>
-        </itemInstances>
         <mode>Replace</mode>
         <name>bottomLeft</name>
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>cacheAge</name>
-                    <value>1440</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Required Assigned Hours and Users</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>reportName</name>
-                    <value>Required_Assigned_Hours_and_Users_v20_mpC</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showRefreshButton</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:reportChart</componentName>
-                <identifier>flexipage_reportChart3</identifier>
-            </componentInstance>
-        </itemInstances>
         <mode>Replace</mode>
         <name>bottomRight</name>
         <type>Region</type>
