@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>AssignedHousxRol__c</fullName>
-    <defaultValue>0</defaultValue>
+    <fullName>RateByHourUsers__c</fullName>
     <externalId>false</externalId>
-    <label>AssignedHousxRol</label>
+    <formula>Resource__r.Rate_Hour__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>RateByHourUsers</label>
     <precision>18</precision>
     <required>false</required>
-    <scale>0</scale>
-    <trackHistory>false</trackHistory>
+    <scale>2</scale>
     <trackTrending>false</trackTrending>
-    <type>Number</type>
-    <unique>false</unique>
+    <type>Currency</type>
 </CustomField>

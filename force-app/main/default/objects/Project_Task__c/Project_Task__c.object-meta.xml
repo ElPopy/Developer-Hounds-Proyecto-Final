@@ -153,7 +153,7 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
-    <label>Project_Task</label>
+    <label>Tasks</label>
     <nameField>
         <label>Project_Task Name</label>
         <trackHistory>false</trackHistory>

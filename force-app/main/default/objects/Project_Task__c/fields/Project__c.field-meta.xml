@@ -4,7 +4,7 @@
     <externalId>false</externalId>
     <label>Project</label>
     <referenceTo>Project__c</referenceTo>
-    <relationshipLabel>Project_Tasks</relationshipLabel>
+    <relationshipLabel>Tasks</relationshipLabel>
     <relationshipName>Project_Tasks</relationshipName>
     <relationshipOrder>1</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>

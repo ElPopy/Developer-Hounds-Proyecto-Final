@@ -14,6 +14,22 @@
             </value>
         </assignmentItems>
         <connector>
+            <targetReference>sumCost</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>sumCost</name>
+        <label>sumCost</label>
+        <locationX>264</locationX>
+        <locationY>695</locationY>
+        <assignmentItems>
+            <assignToReference>estimateCostCurrency</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>loop_Siblings_ProjectResource.CostByResource__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
             <targetReference>loop_Siblings_ProjectResource</targetReference>
         </connector>
     </assignments>
@@ -80,7 +96,7 @@
         <name>Update_ProjectResource</name>
         <label>Update ProjectResource</label>
         <locationX>176</locationX>
-        <locationY>791</locationY>
+        <locationY>911</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -93,6 +109,12 @@
             <field>AssignedHousxRol__c</field>
             <value>
                 <elementReference>SumAssignedHours</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Estimated_Cost__c</field>
+            <value>
+                <elementReference>estimateCostCurrency</elementReference>
             </value>
         </inputAssignments>
         <object>ProjectLineItem__c</object>
@@ -115,7 +137,29 @@
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
+    <variables>
+        <name>estimateCostCurrency</name>
+        <dataType>Currency</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <name>EstimatedCost</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
     <variables>
         <name>SumAssignedHours</name>
         <dataType>Number</dataType>

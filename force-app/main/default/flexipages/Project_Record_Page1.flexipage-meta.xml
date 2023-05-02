@@ -107,6 +107,13 @@
             <componentInstance>
                 <componentName>resourceAllocationTable</componentName>
                 <identifier>c_resourceAllocationTable</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$User.UserRole.Name}</leftValue>
+                        <operator>CONTAINS</operator>
+                        <rightValue>Project Manager</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -198,6 +205,31 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:reportChart</componentName>
                 <identifier>flexipage_reportChart3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>cacheAge</name>
+                    <value>1440</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>reportFilter</name>
+                    <value>CUST_ID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>reportName</name>
+                    <value>New_Projects_with_Opportunity_Report_G0t</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showRefreshButton</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:reportChart</componentName>
+                <identifier>flexipage_reportChart4</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

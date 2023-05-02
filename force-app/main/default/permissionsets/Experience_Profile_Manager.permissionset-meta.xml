@@ -192,6 +192,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ProjectLineItem__c.Estimated_Cost__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ProjectLineItem__c.RequiredHoursxRol__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -201,8 +206,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>ProjectLineItem__c.SodlHoursToCover__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Project_Resources__c.Assigned_Hours__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Project_Resources__c.CostByResource__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -223,6 +238,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Project_Resources__c.Project__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Project_Resources__c.RateByHourUsers__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -261,7 +281,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Project__c.Estimated_Cost__c</field>
         <readable>true</readable>
     </fieldPermissions>

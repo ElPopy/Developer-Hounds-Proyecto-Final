@@ -1,0 +1,42 @@
+<template>
+    <template if:true={resources}>
+<!--     <table>
+            <thead>
+                <tr>
+                    <th>Rol</th>
+                    <th>Recursos disponibles</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={ListKeys} for:item="UserRol">
+                    <tr key={UserRol}>
+                        <td>{UserRol}</td>
+                        <td>
+                            <template for:each={resource.UserRol} for:item="user">
+                                <div key={user.Id}>{user.FirstName}</div>
+                            </template>
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+        -->   
+
+       
+   
+
+        <template for:each={ListKeys} for:item="UserRol" >
+            <P key={UserRol}>{UserRol}</P>
+            <template for:each={ListUsers} for:item="user">
+                <div key={user.Id}>{user.FirstName} {user.Rate_Hour__c}</div> 
+
+
+        </template>
+    </template>
+       
+
+    </template>
+    <template if:true={error}>
+        <div>{error}</div>
+    </template>
+</template>

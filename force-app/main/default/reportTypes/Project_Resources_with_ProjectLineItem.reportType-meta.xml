@@ -70,6 +70,11 @@
             <field>SodlHoursToCover__c</field>
             <table>ProjectLineItem__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Estimated_Cost__c</field>
+            <table>ProjectLineItem__c</table>
+        </columns>
         <masterLabel>ProjectLineItems</masterLabel>
     </sections>
     <sections>
@@ -141,6 +146,21 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Start_Date__c</field>
+            <table>ProjectLineItem__c.Project_Resources__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>RateByHourUsers__c</field>
+            <table>ProjectLineItem__c.Project_Resources__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CostByResource__c</field>
+            <table>ProjectLineItem__c.Project_Resources__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Id__c</field>
             <table>ProjectLineItem__c.Project_Resources__r</table>
         </columns>
         <masterLabel>Project Resources</masterLabel>
