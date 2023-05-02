@@ -162,3 +162,4 @@ export default class ResourceAllocationTable extends LightningElement {
     this.isLoading = state;
   }
 }
+
