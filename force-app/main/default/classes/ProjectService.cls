@@ -88,41 +88,12 @@ public with sharing class ProjectService {
       for (Map<String, String> allocation : allocations) {
         Project_Resources__c projectResource = createProjectResource(project, positionId, allocation);
         projectResorces.add(projectResource);
-        // better in trigger
-        // addHours(assignedHoursByPositionId, projectResource);
       }
     }
     
     Database.insert(projectResorces);
-    
-    // better in trigger
-    // Set<Id> itemIds = assignedHoursByPositionId.keySet();
-    // List<ProjectLineItem__c> projectLineItems = [
-    //   SELECT AssignedHousxRol__c 
-    //   FROM ProjectLineItem__c 
-    //   WHERE Id IN :itemIds
-    // ];      
-    
-    // for (ProjectLineItem__c item : projectLineItems) {
-    //   item.AssignedHousxRol__c += assignedHoursByPositionId.get(item.Id);
-    // }
-    
-    // Database.update(projectLineItems);
-    // better in trigger ends
 
     return JSON.serialize(projectResorces);
-  }
-
-  public static void addHours(Map<Id, Decimal> assignedHoursByPositionId, Project_Resources__c projectResource) {
-    Id positionId = projectResource.ProjectLineItem__c;
-    Decimal assignedHours = projectResource.Assigned_Hours__c;
-
-    if (assignedHoursByPositionId.containsKey(positionId)) {
-      Decimal newHours = assignedHoursByPositionId.get(positionId) + assignedHours;
-      assignedHoursByPositionId.put(positionId, newHours);
-    } else {
-      assignedHoursByPositionId.put(positionId, assignedHours);
-    }
   }
 
   public static Project_Resources__c createProjectResource(Project__c project, Id positionId, Map<String, String> allocation) {
@@ -142,6 +113,18 @@ public with sharing class ProjectService {
     newProjectResource.Assigned_Hours__c = busnessHours(startDate, endDate);
 
     return newProjectResource;
+  }
+
+  public static void addHours(Map<Id, Decimal> assignedHoursByPositionId, Project_Resources__c projectResource) {
+    Id positionId = projectResource.ProjectLineItem__c;
+    Decimal assignedHours = projectResource.Assigned_Hours__c;
+
+    if (assignedHoursByPositionId.containsKey(positionId)) {
+      Decimal newHours = assignedHoursByPositionId.get(positionId) + assignedHours;
+      assignedHoursByPositionId.put(positionId, newHours);
+    } else {
+      assignedHoursByPositionId.put(positionId, assignedHours);
+    }
   }
 
   public static Decimal busnessHours(Date startDate, Date endDate) {
