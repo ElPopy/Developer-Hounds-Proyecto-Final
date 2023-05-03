@@ -1,4 +1,22 @@
 public with sharing class UtilDates {
+  public static DateRange getPendingRange(
+    DateRange outOfOffice,
+    DateRange working
+  ) {
+    DateRange pendingRange = new DateRange();
+
+    DateRange intersection = getIntersection(outOfOffice, working);
+
+    if (intersection.getStartDate() == outOfOffice.getStartDate()) {
+      pendingRange.setStartDate(outOfOffice.getStartDate());
+      if (intersection.getEndDate() == outOfOffice.getEndDate()) {
+        pendingRange.setEndDate(outOfOffice.getEndDate());
+      }
+    }
+
+    return pendingRange;
+  }
+
   public static DateRange getIntersection(
     DateRange rangeOne,
     DateRange rangeTwo

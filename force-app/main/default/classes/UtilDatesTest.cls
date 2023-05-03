@@ -155,15 +155,59 @@ public class UtilDatesTest {
       workingRange
     );
 
+    System.assertEquals(null, intersection.getStartDate(), 'Wrong Start Date');
+
+    System.assertEquals(null, intersection.getEndDate(), 'Wrong End Date');
+  }
+
+  @isTest
+  static void getPendingRangeShouldReturnOutOfOffice() {
+    DateRange outOfOffice = new DateRange(
+      Date.newInstance(2023, 5, 2),
+      Date.newInstance(2023, 5, 5)
+    );
+    DateRange working = new DateRange(
+      Date.newInstance(2023, 5, 2),
+      Date.newInstance(2023, 5, 5)
+    );
+
+    DateRange pending = UtilDates.getPendingRange(outOfOffice, working);
+
     System.assertEquals(
-      null,
-      intersection.getStartDate(),
+      Date.newInstance(2023, 5, 2),
+      pending.getStartDate(),
       'Wrong Start Date'
     );
 
     System.assertEquals(
-      null,
-      intersection.getEndDate(),
+      Date.newInstance(2023, 5, 5),
+      pending.getEndDate(),
+      'Wrong End Date'
+    );
+  }
+
+  @isTest
+  static void getPendingRangeShouldReturnWorkingRange() {
+    DateRange outOfOffice = new DateRange(
+      Date.newInstance(2023, 5, 1),
+      Date.newInstance(2023, 5, 6)
+    );
+    DateRange working = new DateRange(
+      Date.newInstance(2023, 5, 2),
+      Date.newInstance(2023, 5, 5)
+    );
+
+    DateRange pending = UtilDates.getPendingRange(outOfOffice, working);
+
+    System.assertEquals(
+      Date.newInstance(2023, 5, 2),
+      pending.getStartDate(),
+      'Wrong Start Date'
+    );
+
+    System.assertEquals(
+      Date.newInstance(2023, 5, 5),
+      pending.getEndDate(),
       'Wrong End Date'
     );
   }
