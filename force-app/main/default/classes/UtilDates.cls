@@ -5,13 +5,16 @@ public with sharing class UtilDates {
   ) {
     DateRange pendingRange = new DateRange();
 
-    DateRange intersection = getIntersection(outOfOffice, working);
-
-    if (intersection.getStartDate() == outOfOffice.getStartDate()) {
+    if (working.getStartDate() <= outOfOffice.getStartDate()) {
       pendingRange.setStartDate(outOfOffice.getStartDate());
-      if (intersection.getEndDate() == outOfOffice.getEndDate()) {
-        pendingRange.setEndDate(outOfOffice.getEndDate());
-      }
+    } else {
+      pendingRange.setStartDate(working.getStartDate());
+    }
+
+    if (working.getEndDate() >= outOfOffice.getEndDate()) {
+      pendingRange.setEndDate(outOfOffice.getEndDate());
+    } else {
+      pendingRange.setEndDate(working.getEndDate());
     }
 
     return pendingRange;
