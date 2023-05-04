@@ -1,23 +1,58 @@
 public with sharing class UtilDates {
+  public static List<DateRange> getApprovedRanges(
+    DateRange outOfOffice,
+    DateRange working
+  ) {
+    List<DateRange> approvedRanges = new List<DateRange>();
+
+    DateRange pending = getIntersection(outOfOffice, working);
+
+    DateRange approvedStart = approvedStartRange(pending, outOfOffice);
+    if (!approvedStart.isEmpty()) {
+      approvedRanges.add(approvedStart);
+    }
+
+    DateRange approvedEnd = approvedEndRange(pending, outOfOffice);
+    if (!approvedEnd.isEmpty()) {
+      approvedRanges.add(approvedEnd);
+    }
+
+    return approvedRanges;
+  }
+
+  public static DateRange approvedStartRange(
+    DateRange pending,
+    DateRange outOfOffice
+  ) {
+    DateRange approved = new DateRange();
+
+    if (pending.getStartDate() > outOfOffice.getStartDate()) {
+      approved.setStartDate(outOfOffice.getStartDate());
+      approved.setEndDate(pending.getStartDate() - 1);
+    }
+
+    return approved;
+  }
+
+  public static DateRange approvedEndRange(
+    DateRange pending,
+    DateRange outOfOffice
+  ) {
+    DateRange approved = new DateRange();
+
+    if (pending.getEndDate() < outOfOffice.getEndDate()) {
+      approved.setStartDate(pending.getEndDate() + 1);
+      approved.setEndDate(outOfOffice.getEndDate());
+    }
+
+    return approved;
+  }
+
   public static DateRange getPendingRange(
     DateRange outOfOffice,
     DateRange working
   ) {
-    DateRange pendingRange = new DateRange();
-
-    if (working.getStartDate() <= outOfOffice.getStartDate()) {
-      pendingRange.setStartDate(outOfOffice.getStartDate());
-    } else {
-      pendingRange.setStartDate(working.getStartDate());
-    }
-
-    if (working.getEndDate() >= outOfOffice.getEndDate()) {
-      pendingRange.setEndDate(outOfOffice.getEndDate());
-    } else {
-      pendingRange.setEndDate(working.getEndDate());
-    }
-
-    return pendingRange;
+    return getIntersection(outOfOffice, working);
   }
 
   public static DateRange getIntersection(
@@ -29,16 +64,6 @@ public with sharing class UtilDates {
       intersectionEnd(rangeOne, rangeTwo)
     );
     return intersection;
-  }
-
-  public static Boolean areOverlapped(DateRange rangeOne, DateRange rangeTwo) {
-    if (
-      rangeOne.getEndDate() >= rangeTwo.getStartDate() &&
-      rangeOne.getStartDate() <= rangeTwo.getEndDate()
-    ) {
-      return true;
-    }
-    return false;
   }
 
   public static Date intersectionStart(DateRange rangeOne, DateRange rangeTwo) {
@@ -67,5 +92,15 @@ public with sharing class UtilDates {
     }
 
     return endDate;
+  }
+
+  public static Boolean areOverlapped(DateRange rangeOne, DateRange rangeTwo) {
+    if (
+      rangeOne.getEndDate() >= rangeTwo.getStartDate() &&
+      rangeOne.getStartDate() <= rangeTwo.getEndDate()
+    ) {
+      return true;
+    }
+    return false;
   }
 }

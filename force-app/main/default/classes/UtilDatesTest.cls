@@ -211,4 +211,88 @@ public class UtilDatesTest {
       'Wrong End Date'
     );
   }
+
+  @isTest
+  static void getApprovedRangeShouldReturnOutOfOfficeRangeLessOne() {
+    DateRange outOfOffice = new DateRange(
+      Date.newInstance(2023, 5, 1),
+      Date.newInstance(2023, 5, 6)
+    );
+    DateRange working = new DateRange(
+      Date.newInstance(2023, 4, 28),
+      Date.newInstance(2023, 5, 1)
+    );
+
+    List<DateRange> approved = UtilDates.getApprovedRanges(outOfOffice, working);
+
+    System.assertEquals(1, approved.size(), 'Wrong list size');
+
+    System.assertEquals(
+      Date.newInstance(2023, 5, 2),
+      approved.get(0).getStartDate(),
+      'Wrong Start Date'
+    );
+
+    System.assertEquals(
+      Date.newInstance(2023, 5, 6),
+      approved.get(0).getEndDate(),
+      'Wrong End Date'
+    );
+  }
+
+  @isTest
+  static void getApprovedRangeShouldReturnEmptyList() {
+    DateRange outOfOffice = new DateRange(
+      Date.newInstance(2023, 5, 1),
+      Date.newInstance(2023, 5, 6)
+    );
+    DateRange working = new DateRange(
+      Date.newInstance(2023, 4, 28),
+      Date.newInstance(2023, 5, 6)
+    );
+
+    List<DateRange> approved = UtilDates.getApprovedRanges(outOfOffice, working);
+
+    System.assertEquals(0, approved.size(), 'Wrong list size');
+  }
+
+  @isTest
+  static void getApprovedRangeShouldReturnTwoApprovedRanges() {
+    DateRange outOfOffice = new DateRange(
+      Date.newInstance(2023, 5, 1),
+      Date.newInstance(2023, 5, 6)
+    );
+    DateRange working = new DateRange(
+      Date.newInstance(2023, 5, 3),
+      Date.newInstance(2023, 5, 5)
+    );
+
+    List<DateRange> approved = UtilDates.getApprovedRanges(outOfOffice, working);
+
+    System.assertEquals(2, approved.size(), 'Wrong list size');
+
+    System.assertEquals(
+      Date.newInstance(2023, 5, 1),
+      approved.get(0).getStartDate(),
+      'Wrong Start Date first approved'
+    );
+
+    System.assertEquals(
+      Date.newInstance(2023, 5, 2),
+      approved.get(0).getEndDate(),
+      'Wrong End Date first approved'
+    );
+
+    System.assertEquals(
+      Date.newInstance(2023, 5, 6),
+      approved.get(1).getStartDate(),
+      'Wrong Start Date second approved'
+    );
+
+    System.assertEquals(
+      Date.newInstance(2023, 5, 6),
+      approved.get(1).getEndDate(),
+      'Wrong End Date second approved'
+    );
+  }
 }

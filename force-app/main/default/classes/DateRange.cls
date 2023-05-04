@@ -12,6 +12,20 @@ public with sharing class DateRange {
     this.endDate = endDate;
   }
 
+  public Boolean isEquals(DateRange toCompare) {
+    if (
+      this.startDate == toCompare.getStartDate() &&
+      this.endDate == toCompare.getEndDate()
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  public Boolean isEmpty() {
+    return this.startDate == null && this.endDate == null;
+  }
+
   public Date getStartDate() {
     return this.startDate;
   }
