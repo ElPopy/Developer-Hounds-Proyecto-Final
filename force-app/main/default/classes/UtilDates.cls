@@ -7,6 +7,10 @@ public with sharing class UtilDates {
 
     DateRange pending = getIntersection(outOfOffice, working);
 
+    if (pending.isEmpty()) {
+      approvedRanges.add(outOfOffice);
+    }
+
     DateRange approvedStart = approvedStartRange(pending, outOfOffice);
     if (!approvedStart.isEmpty()) {
       approvedRanges.add(approvedStart);

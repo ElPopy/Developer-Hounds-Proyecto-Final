@@ -1,36 +1,29 @@
 public with sharing class OutRequestService {
   public static List<OutRequest> getOutRequests(
     OutRequest request,
-    ProjectResource workPeriod
+    List<ProjectResource> workPeriodList
   ) {
     List<OutRequest> requestList = new List<OutRequest>();
 
+    for (ProjectResource workPeriod : workPeriodList) {
+      addApprovedRanges(request, workPeriod, requestList);
+      addPendingRange(request, workPeriod, requestList);
+    }
+
+    return requestList;
+  }
+
+  public static void addPendingRange(
+    OutRequest request,
+    ProjectResource workPeriod,
+    List<OutRequest> requestList
+  ) {
     DateRange outRange = request.getDateRange();
     DateRange workRange = workPeriod.getDateRange();
 
-    Boolean notOverlapped = !UtilDates.areOverlapped(outRange, workRange);
-
-    if (notOverlapped) {
-      OutRequest approved = createApprovedReq(
-        request,
-        workPeriod,
-        request.getDateRange()
-      );
-      requestList.add(approved);
-    } else {
-      List<DateRange> approvedRanges = UtilDates.getApprovedRanges(
-        outRange,
-        workRange
-      );
-      for (DateRange approvedRange : approvedRanges) {
-        OutRequest approved = createApprovedReq(
-          request,
-          workPeriod,
-          approvedRange
-        );
-        requestList.add(approved);
-      }
-      DateRange pendingRange = UtilDates.getPendingRange(outRange, workRange);
+    DateRange pendingRange = UtilDates.getPendingRange(outRange, workRange);
+    Boolean thereIsPendingRange = !pendingRange.isEmpty();
+    if (thereIsPendingRange) {
       OutRequest newRequest = createPendingReq(
         request,
         workPeriod,
@@ -38,8 +31,28 @@ public with sharing class OutRequestService {
       );
       requestList.add(newRequest);
     }
+  }
 
-    return requestList;
+  public static void addApprovedRanges(
+    OutRequest request,
+    ProjectResource workPeriod,
+    List<OutRequest> requestList
+  ) {
+    DateRange outRange = request.getDateRange();
+    DateRange workRange = workPeriod.getDateRange();
+
+    List<DateRange> approvedRanges = UtilDates.getApprovedRanges(
+      outRange,
+      workRange
+    );
+    for (DateRange approvedRange : approvedRanges) {
+      OutRequest approved = createApprovedReq(
+        request,
+        workPeriod,
+        approvedRange
+      );
+      requestList.add(approved);
+    }
   }
 
   public static OutRequest createPendingReq(

@@ -213,6 +213,34 @@ public class UtilDatesTest {
   }
 
   @isTest
+  static void getApprovedRangeShouldReturnOutOfOfficeRangeWhenNotOverlapping() {
+    DateRange outOfOffice = new DateRange(
+      Date.newInstance(2023, 5, 1),
+      Date.newInstance(2023, 5, 6)
+    );
+    DateRange working = new DateRange(
+      Date.newInstance(2023, 4, 25),
+      Date.newInstance(2023, 4, 29)
+    );
+
+    List<DateRange> approved = UtilDates.getApprovedRanges(outOfOffice, working);
+
+    System.assertEquals(1, approved.size(), 'Wrong list size');
+
+    System.assertEquals(
+      Date.newInstance(2023, 5, 1),
+      approved.get(0).getStartDate(),
+      'Wrong Start Date'
+    );
+
+    System.assertEquals(
+      Date.newInstance(2023, 5, 6),
+      approved.get(0).getEndDate(),
+      'Wrong End Date'
+    );
+  }
+
+  @isTest
   static void getApprovedRangeShouldReturnOutOfOfficeRangeLessOne() {
     DateRange outOfOffice = new DateRange(
       Date.newInstance(2023, 5, 1),

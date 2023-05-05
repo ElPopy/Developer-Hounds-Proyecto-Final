@@ -14,9 +14,12 @@ public with sharing class OutRequestServiceTest {
     workPeriod.setStartDate(Date.newInstance(2023, 5, 7));
     workPeriod.setEndDate(Date.newInstance(2023, 5, 14));
 
+    List<ProjectResource> workPeriodList = new List<ProjectResource>();
+    workPeriodList.add(workPeriod);
+
     List<OutRequest> requests = OutRequestService.getOutRequests(
       request,
-      workPeriod
+      workPeriodList
     );
 
     System.assertEquals(1, requests.size(), 'Wrong list size');
@@ -64,9 +67,12 @@ public with sharing class OutRequestServiceTest {
     workPeriod.setStartDate(Date.newInstance(2023, 5, 1));
     workPeriod.setEndDate(Date.newInstance(2023, 5, 6));
 
+    List<ProjectResource> workPeriodList = new List<ProjectResource>();
+    workPeriodList.add(workPeriod);
+
     List<OutRequest> requests = OutRequestService.getOutRequests(
       request,
-      workPeriod
+      workPeriodList
     );
 
     System.assertEquals(1, requests.size(), 'Wrong list size');
@@ -119,9 +125,12 @@ public with sharing class OutRequestServiceTest {
     workPeriod.setStartDate(Date.newInstance(2023, 5, 4));
     workPeriod.setEndDate(Date.newInstance(2023, 5, 12));
 
+    List<ProjectResource> workPeriodList = new List<ProjectResource>();
+    workPeriodList.add(workPeriod);
+
     List<OutRequest> requests = OutRequestService.getOutRequests(
       request,
-      workPeriod
+      workPeriodList
     );
 
     System.assertEquals(2, requests.size(), 'Wrong list size');
