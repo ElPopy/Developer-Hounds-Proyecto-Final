@@ -18,6 +18,18 @@ public with sharing class OutRequestService {
       );
       requestList.add(approved);
     } else {
+      List<DateRange> approvedRanges = UtilDates.getApprovedRanges(
+        outRange,
+        workRange
+      );
+      for (DateRange approvedRange : approvedRanges) {
+        OutRequest approved = createApprovedReq(
+          request,
+          workPeriod,
+          approvedRange
+        );
+        requestList.add(approved);
+      }
       DateRange pendingRange = UtilDates.getPendingRange(outRange, workRange);
       OutRequest newRequest = createPendingReq(
         request,
