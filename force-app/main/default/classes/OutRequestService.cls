@@ -5,9 +5,13 @@ public with sharing class OutRequestService {
   ) {
     List<OutRequest> requestList = new List<OutRequest>();
 
-    for (ProjectResource workPeriod : workPeriodList) {
-      addApprovedRanges(request, workPeriod, requestList);
-      addPendingRange(request, workPeriod, requestList);
+    if (workPeriodList.size() == 0) {
+      requestList.add(createApprovedReq(request, request.getDateRange()));
+    } else {
+      for (ProjectResource workPeriod : workPeriodList) {
+        addApprovedRanges(request, workPeriod, requestList);
+        addPendingRange(request, workPeriod, requestList);
+      }
     }
 
     return requestList;
@@ -46,11 +50,7 @@ public with sharing class OutRequestService {
       workRange
     );
     for (DateRange approvedRange : approvedRanges) {
-      OutRequest approved = createApprovedReq(
-        request,
-        workPeriod,
-        approvedRange
-      );
+      OutRequest approved = createApprovedReq(request, approvedRange);
       requestList.add(approved);
     }
   }
@@ -71,11 +71,9 @@ public with sharing class OutRequestService {
 
   public static OutRequest createApprovedReq(
     OutRequest fromRequest,
-    ProjectResource workPeriod,
     DateRange range
   ) {
     OutRequest newRequest = fromRequest.clone();
-    newRequest.setResourceId(workPeriod.getResourceId());
     newRequest.setStartDate(range.getStartDate());
     newRequest.setEndDate(range.getEndDate());
     newRequest.setStatus(OutRequest.APPROVED);
