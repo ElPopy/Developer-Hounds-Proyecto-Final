@@ -3,6 +3,26 @@ public with sharing class OutRequest {
   public static final String PENDING = 'Pending Approval';
   public static final String REJECTED = 'Rejected';
 
+  public static Out_office_req__c parseRequest(OutRequest request) {
+    Id resourceId;
+    Id projectId;
+    if (request.getResourceId() != null) {
+      resourceId = (Id) request.getResourceId();
+    }
+    if (request.getProjectId() != null) {
+      projectId = (Id) request.getProjectId();
+    }
+    return new Out_office_req__c(
+      Resource__c = resourceId,
+      Project__c = projectId,
+      Name = request.getName(),
+      Start_Date__c = request.getStartDate(),
+      End_Date__c = request.getEndDate(),
+      Description__c = request.getDescription(),
+      Status__c = request.getStatus()
+    );
+  }
+
   private String resourceId;
   private String projectId;
   private String name;

@@ -49,7 +49,7 @@ public with sharing class OutRequestServiceTest {
   }
 
   @isTest
-  static void getOutRequestsShouldReturnOutRangePending() {
+  static void getOutRequestsShouldReturnOutRangePendingWhenOneFullWorkRange() {
     OutRequest request = new OutRequest();
     request.setName('name');
     request.setResourceId('resourceId001');
@@ -108,7 +108,7 @@ public with sharing class OutRequestServiceTest {
   }
 
   @isTest
-  static void getOutRequestsShouldReturnOneApprovedOnePending() {
+  static void getOutRequestsShouldReturnOneApprovedOnePendingWhenWorkIsInTheMiddle() {
     OutRequest request = new OutRequest();
     request.setName('name');
     request.setResourceId('resourceId001');
@@ -194,29 +194,30 @@ public with sharing class OutRequestServiceTest {
       'Wrong description'
     );
   }
-  // vacation    |-----------------------|
-  // project1      |------|
-  // project2                |-----|
+  // vacation         |--------|
+  // project1  |------|
+  // project2                  |-----|
 
-  static void getOutRequestsShouldReturn3Approved2Pending() {
+  @isTest
+  static void getOutRequestsShouldReturn1Approved2PendingForExtremWorkRange() {
     OutRequest request = new OutRequest();
     request.setName('name');
     request.setResourceId('resourceId001');
     request.setDescription('description');
-    request.setStartDate(Date.newInstance(2023, 5, 1));
-    request.setEndDate(Date.newInstance(2023, 5, 13));
+    request.setStartDate(Date.newInstance(2023, 5, 5));
+    request.setEndDate(Date.newInstance(2023, 5, 10));
 
     ProjectResource workPeriod = new ProjectResource();
     workPeriod.setResourceId('resourceId001');
     workPeriod.setProjectId('projectId001');
-    workPeriod.setStartDate(Date.newInstance(2023, 5, 4));
-    workPeriod.setEndDate(Date.newInstance(2023, 5, 7));
+    workPeriod.setStartDate(Date.newInstance(2023, 5, 1));
+    workPeriod.setEndDate(Date.newInstance(2023, 5, 5));
 
     ProjectResource otherWork = new ProjectResource();
     otherWork.setResourceId('resourceId001');
     otherWork.setProjectId('projectId002');
-    otherWork.setStartDate(Date.newInstance(2023, 5, 9));
-    otherWork.setEndDate(Date.newInstance(2023, 5, 11));
+    otherWork.setStartDate(Date.newInstance(2023, 5, 10));
+    otherWork.setEndDate(Date.newInstance(2023, 5, 15));
 
     List<ProjectResource> workPeriodList = new List<ProjectResource>();
     workPeriodList.add(workPeriod);
@@ -227,7 +228,7 @@ public with sharing class OutRequestServiceTest {
       workPeriodList
     );
 
-    System.assertEquals(5, requests.size(), 'Wrong list size');
+    System.assertEquals(3, requests.size(), 'Wrong list size');
 
     OutRequest actualReq = requests.get(0);
     System.assertEquals(
