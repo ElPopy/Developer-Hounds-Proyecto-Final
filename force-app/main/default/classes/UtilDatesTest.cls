@@ -223,7 +223,10 @@ public class UtilDatesTest {
       Date.newInstance(2023, 4, 29)
     );
 
-    List<DateRange> approved = UtilDates.getApprovedRanges(outOfOffice, working);
+    List<DateRange> approved = UtilDates.getApprovedRanges(
+      outOfOffice,
+      working
+    );
 
     System.assertEquals(1, approved.size(), 'Wrong list size');
 
@@ -251,7 +254,10 @@ public class UtilDatesTest {
       Date.newInstance(2023, 5, 1)
     );
 
-    List<DateRange> approved = UtilDates.getApprovedRanges(outOfOffice, working);
+    List<DateRange> approved = UtilDates.getApprovedRanges(
+      outOfOffice,
+      working
+    );
 
     System.assertEquals(1, approved.size(), 'Wrong list size');
 
@@ -279,7 +285,10 @@ public class UtilDatesTest {
       Date.newInstance(2023, 5, 6)
     );
 
-    List<DateRange> approved = UtilDates.getApprovedRanges(outOfOffice, working);
+    List<DateRange> approved = UtilDates.getApprovedRanges(
+      outOfOffice,
+      working
+    );
 
     System.assertEquals(0, approved.size(), 'Wrong list size');
   }
@@ -295,7 +304,10 @@ public class UtilDatesTest {
       Date.newInstance(2023, 5, 5)
     );
 
-    List<DateRange> approved = UtilDates.getApprovedRanges(outOfOffice, working);
+    List<DateRange> approved = UtilDates.getApprovedRanges(
+      outOfOffice,
+      working
+    );
 
     System.assertEquals(2, approved.size(), 'Wrong list size');
 
@@ -321,6 +333,41 @@ public class UtilDatesTest {
       Date.newInstance(2023, 5, 6),
       approved.get(1).getEndDate(),
       'Wrong End Date second approved'
+    );
+  }
+
+  @isTest
+  static void getApprovedRangeShouldReturnOutOfOfficeWhenWorkingsDoNotOverlapp() {
+    DateRange outOfOffice = new DateRange(
+      Date.newInstance(2023, 5, 1),
+      Date.newInstance(2023, 5, 6)
+    );
+    DateRange workingOne = new DateRange(
+      Date.newInstance(2023, 4, 15),
+      Date.newInstance(2023, 4, 20)
+    );
+    DateRange workingTwo = new DateRange(
+      Date.newInstance(2023, 5, 15),
+      Date.newInstance(2023, 5, 20)
+    );
+
+    List<DateRange> approvedList = UtilDates.getApprovedRanges(
+      outOfOffice,
+      new List<DateRange>{ workingOne, workingTwo }
+    );
+
+    System.assertEquals(1, approvedList.size(), 'Wrong list size');
+
+    System.assertEquals(
+      Date.newInstance(2023, 5, 1),
+      approvedList.get(0).getStartDate(),
+      'Wrong Start Date first approved'
+    );
+
+    System.assertEquals(
+      Date.newInstance(2023, 5, 6),
+      approvedList.get(0).getEndDate(),
+      'Wrong End Date first approved'
     );
   }
 }
