@@ -1,6 +1,27 @@
 public with sharing class UtilDates {
   public static List<DateRange> getApprovedRanges(
     DateRange outOfOffice,
+    List<DateRange> workingRanges
+  ) {
+    List<DateRange> approvedRanges = new List<DateRange>();
+    List<DateRange> pendingRanges = new List<DateRange>();
+
+    for (DateRange working : workingRanges) {
+      DateRange pending = getPendingRange(outOfOffice, working);
+      if (!pending.isEmpty()) {
+        pendingRanges.add(pending);
+      }
+    }
+
+    if (pendingRanges.size() == 0) {
+      approvedRanges.add(outOfOffice.clone());
+    }
+
+    return approvedRanges;
+  }
+
+  public static List<DateRange> getApprovedRanges(
+    DateRange outOfOffice,
     DateRange working
   ) {
     List<DateRange> approvedRanges = new List<DateRange>();
