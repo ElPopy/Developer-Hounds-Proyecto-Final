@@ -21,6 +21,9 @@ public with sharing class DebugConsole {
       item.Estimated_Cost__c = 0.0;
     }
     update plis;
+    // delete all OutOfOfficeRequest
+    List<Out_office_req__c> outReq = [SELECT Id FROM Out_office_req__c];
+    delete outReq;
 
     // set rate per hour to Resourses
     Set<String> roleNames = new Set<String>{
@@ -45,7 +48,6 @@ public with sharing class DebugConsole {
       rateHour++;
     }
     update resources;
-
   }
 }
 
