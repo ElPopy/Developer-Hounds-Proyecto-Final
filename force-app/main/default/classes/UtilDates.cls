@@ -4,20 +4,95 @@ public with sharing class UtilDates {
     List<DateRange> workingRanges
   ) {
     List<DateRange> approvedRanges = new List<DateRange>();
-    List<DateRange> pendingRanges = new List<DateRange>();
+    List<DateRange> pendingRanges = getPendingRanges(
+      outOfOffice,
+      workingRanges
+    );
+    if (pendingRanges.size() == 0) {
+      approvedRanges.add(outOfOffice.clone());
+    } else if (pendingRanges.size() == 1) {
+      List<DateRange> approved = getApprovedRanges(
+        outOfOffice,
+        pendingRanges.get(0)
+      );
+      approvedRanges.addAll(approved);
+    } else {
+      List<DateRange> orderedPending = orderRanges(pendingRanges);
+      List<DateRange> allApproved = approvedListForMultiPending(
+        outOfOffice,
+        orderedPending
+      );
+      approvedRanges.addAll(allApproved);
+    }
+    return approvedRanges;
+  }
 
-    for (DateRange working : workingRanges) {
-      DateRange pending = getPendingRange(outOfOffice, working);
-      if (!pending.isEmpty()) {
-        pendingRanges.add(pending);
+  public static List<DateRange> approvedListForMultiPending(
+    DateRange outOfOffice,
+    List<DateRange> orderedPending
+  ) {
+    List<DateRange> allApproved = new List<DateRange>();
+
+    for (Integer index = 0; index < orderedPending.size(); index++) {
+      Date startDate = startDateForSubOut(
+        index,
+        outOfOffice,
+        orderedPending[index]
+      );
+      Date endDate = endDateForSub(index, outOfOffice, orderedPending);
+
+      List<DateRange> approved = getApprovedRanges(
+        new DateRange(startDate, endDate),
+        orderedPending[index]
+      );
+
+      if (!approved.isEmpty()) {
+        allApproved.addAll(approved);
       }
     }
 
-    if (pendingRanges.size() == 0) {
-      approvedRanges.add(outOfOffice.clone());
-    }
+    return allApproved;
+  }
 
-    return approvedRanges;
+  public static Date startDateForSubOut(
+    Integer index,
+    DateRange outOfOffice,
+    DateRange pending
+  ) {
+    Date startDate;
+    if (index == 0) {
+      startDate = outOfOffice.getStartDate();
+    } else {
+      startDate = pending.getStartDate();
+    }
+    return startDate;
+  }
+
+  public static Date endDateForSub(
+    Integer index,
+    DateRange outOfOffice,
+    List<DateRange> orderedPending
+  ) {
+    Date endDate;
+    if (index < orderedPending.size() - 1) {
+      endDate = orderedPending[index + 1].getStartDate() - 1;
+    } else {
+      endDate = outOfOffice.getEndDate();
+    }
+    return endDate;
+  }
+
+  public static List<DateRange> orderRanges(List<DateRange> ranges) {
+    for (Integer index = 0; index < ranges.size() - 1; index++) {
+      for (Integer i = index + 1; i < ranges.size(); i++) {
+        if (ranges[i].getStartDate() < ranges[index].getStartDate()) {
+          DateRange min = ranges[i];
+          ranges[i] = ranges[index];
+          ranges[index] = min;
+        }
+      }
+    }
+    return ranges;
   }
 
   public static List<DateRange> getApprovedRanges(
@@ -71,6 +146,22 @@ public with sharing class UtilDates {
     }
 
     return approved;
+  }
+
+  public static List<DateRange> getPendingRanges(
+    DateRange outOfOffice,
+    List<DateRange> workingRanges
+  ) {
+    List<DateRange> pendingRanges = new List<DateRange>();
+
+    for (DateRange working : workingRanges) {
+      DateRange pending = getPendingRange(outOfOffice, working);
+      if (!pending.isEmpty()) {
+        pendingRanges.add(pending);
+      }
+    }
+
+    return pendingRanges;
   }
 
   public static DateRange getPendingRange(

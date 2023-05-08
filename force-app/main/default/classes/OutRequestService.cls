@@ -85,8 +85,9 @@ public with sharing class OutRequestService {
     if (workPeriodList.size() == 0) {
       requestList.add(createApprovedReq(request, request.getDateRange()));
     } else {
+      addApprovedRanges(request, workPeriodList, requestList);
+
       for (ProjectResource workPeriod : workPeriodList) {
-        addApprovedRanges(request, workPeriod, requestList);
         addPendingRange(request, workPeriod, requestList);
       }
     }
@@ -116,16 +117,22 @@ public with sharing class OutRequestService {
 
   public static void addApprovedRanges(
     OutRequest request,
-    ProjectResource workPeriod,
+    List<ProjectResource> workPeriod,
     List<OutRequest> requestList
   ) {
     DateRange outRange = request.getDateRange();
-    DateRange workRange = workPeriod.getDateRange();
+    List<DateRange> workRangeList = new List<DateRange>();
+
+    for (ProjectResource project : workPeriod) {
+      DateRange workRange = project.getDateRange();
+      workRangeList.add(workRange);
+    }
 
     List<DateRange> approvedRanges = UtilDates.getApprovedRanges(
       outRange,
-      workRange
+      workRangeList
     );
+
     for (DateRange approvedRange : approvedRanges) {
       OutRequest approved = createApprovedReq(request, approvedRange);
       requestList.add(approved);
