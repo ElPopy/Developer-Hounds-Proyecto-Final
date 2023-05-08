@@ -12,6 +12,19 @@ public with sharing class DateRange {
     this.endDate = endDate;
   }
 
+  public DateRange(String startDate, String endDate) {
+    this.startDate = Date.newInstance(
+      Integer.valueOf(startDate.split('/').get(0)),
+      Integer.valueOf(startDate.split('/').get(1)),
+      Integer.valueOf(startDate.split('/').get(2))
+    );
+    this.endDate = Date.newInstance(
+      Integer.valueOf(endDate.split('/').get(0)),
+      Integer.valueOf(endDate.split('/').get(1)),
+      Integer.valueOf(endDate.split('/').get(2))
+    );
+  }
+
   public Boolean isEquals(DateRange toCompare) {
     if (
       this.startDate == toCompare.getStartDate() &&

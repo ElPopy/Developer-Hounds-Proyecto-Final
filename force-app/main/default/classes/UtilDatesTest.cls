@@ -245,18 +245,12 @@ public class UtilDatesTest {
 
   @isTest
   static void getApprovedRangeShouldReturnOutOfOfficeRangeLessOne() {
-    DateRange outOfOffice = new DateRange(
-      Date.newInstance(2023, 5, 1),
-      Date.newInstance(2023, 5, 6)
-    );
-    DateRange working = new DateRange(
-      Date.newInstance(2023, 4, 28),
-      Date.newInstance(2023, 5, 1)
-    );
+    DateRange outOfOffice = new DateRange('2023/5/1', '2023/5/6');
+    DateRange workingOne = new DateRange('2023/4/28', '2023/5/1');
 
     List<DateRange> approved = UtilDates.getApprovedRanges(
       outOfOffice,
-      working
+      workingOne
     );
 
     System.assertEquals(1, approved.size(), 'Wrong list size');
@@ -338,18 +332,11 @@ public class UtilDatesTest {
 
   @isTest
   static void getApprovedRangeShouldReturnOutOfOfficeWhenWorkingsDoNotOverlapp() {
-    DateRange outOfOffice = new DateRange(
-      Date.newInstance(2023, 5, 1),
-      Date.newInstance(2023, 5, 6)
-    );
-    DateRange workingOne = new DateRange(
-      Date.newInstance(2023, 4, 15),
-      Date.newInstance(2023, 4, 20)
-    );
-    DateRange workingTwo = new DateRange(
-      Date.newInstance(2023, 5, 15),
-      Date.newInstance(2023, 5, 20)
-    );
+    DateRange workingOne = new DateRange('2023/4/15', '2023/4/20');
+
+    DateRange outOfOffice = new DateRange('2023/5/1', '2023/5/6');
+
+    DateRange workingTwo = new DateRange('2023/5/15', '2023/5/20');
 
     List<DateRange> approvedList = UtilDates.getApprovedRanges(
       outOfOffice,
@@ -368,6 +355,86 @@ public class UtilDatesTest {
       Date.newInstance(2023, 5, 6),
       approvedList.get(0).getEndDate(),
       'Wrong End Date first approved'
+    );
+  }
+
+  @isTest
+  static void getApprovedRangeShouldReturnTwoRangesWhenOneWorkingMiddleOverlapp() {
+    DateRange workingOne = new DateRange('2023/4/15', '2023/4/20');
+
+    DateRange outOfOffice = new DateRange('2023/5/1', '2023/5/6');
+
+    DateRange workingTwo = new DateRange('2023/5/3', '2023/5/5');
+
+    List<DateRange> approvedList = UtilDates.getApprovedRanges(
+      outOfOffice,
+      new List<DateRange>{ workingOne, workingTwo }
+    );
+
+    System.assertEquals(2, approvedList.size(), 'Wrong list size');
+
+    System.assertEquals(
+      Date.newInstance(2023, 5, 1),
+      approvedList.get(0).getStartDate(),
+      'Wrong Start Date first approved'
+    );
+    System.assertEquals(
+      Date.newInstance(2023, 5, 2),
+      approvedList.get(0).getEndDate(),
+      'Wrong End Date first approved'
+    );
+
+    System.assertEquals(
+      Date.newInstance(2023, 5, 6),
+      approvedList.get(1).getStartDate(),
+      'Wrong Start Date second approved'
+    );
+    System.assertEquals(
+      Date.newInstance(2023, 5, 6),
+      approvedList.get(1).getEndDate(),
+      'Wrong End Date secomd approved'
+    );
+  }
+
+  @isTest
+  static void getApprovedRangeShouldReturnEmptyListWhenWorkingsTotalOverlapp() {
+    DateRange workingOne = new DateRange('2023/5/1', '2023/5/3');
+
+    DateRange outOfOffice = new DateRange('2023/5/1', '2023/5/6');
+
+    DateRange workingTwo = new DateRange('2023/5/4', '2023/5/9');
+
+    List<DateRange> approvedList = UtilDates.getApprovedRanges(
+      outOfOffice,
+      new List<DateRange>{ workingOne, workingTwo }
+    );
+
+    System.assertEquals(0, approvedList.size(), 'Wrong list size');
+  }
+
+  @isTest
+  static void getApprovedRangeShouldReturnOneWhenWorkingExtremeOverlapp() {
+    DateRange workingOne = new DateRange('2023/5/1', '2023/5/3');
+
+    DateRange outOfOffice = new DateRange('2023/5/3', '2023/5/6');
+
+    DateRange workingTwo = new DateRange('2023/5/6', '2023/5/19');
+
+    List<DateRange> approvedList = UtilDates.getApprovedRanges(
+      outOfOffice,
+      new List<DateRange>{ workingOne, workingTwo }
+    );
+
+    System.assertEquals(1, approvedList.size(), 'Wrong list size');
+    System.assertEquals(
+      Date.newInstance(2023, 5, 4),
+      approvedList[0].getStartDate(),
+      'Worng Start Date'
+    );
+    System.assertEquals(
+      Date.newInstance(2023, 5, 5),
+      approvedList[0].getEndDate(),
+      'Worng End Date'
     );
   }
 }

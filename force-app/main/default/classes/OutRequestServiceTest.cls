@@ -200,18 +200,18 @@ public with sharing class OutRequestServiceTest {
 
   @isTest
   static void getOutRequestsShouldReturn1Approved2PendingForExtremWorkRange() {
+    ProjectResource workPeriod = new ProjectResource();
+    workPeriod.setResourceId('resourceId001');
+    workPeriod.setProjectId('projectId001');
+    workPeriod.setStartDate(Date.newInstance(2023, 5, 1));
+    workPeriod.setEndDate(Date.newInstance(2023, 5, 5));
+
     OutRequest request = new OutRequest();
     request.setName('name');
     request.setResourceId('resourceId001');
     request.setDescription('description');
     request.setStartDate(Date.newInstance(2023, 5, 5));
     request.setEndDate(Date.newInstance(2023, 5, 10));
-
-    ProjectResource workPeriod = new ProjectResource();
-    workPeriod.setResourceId('resourceId001');
-    workPeriod.setProjectId('projectId001');
-    workPeriod.setStartDate(Date.newInstance(2023, 5, 1));
-    workPeriod.setEndDate(Date.newInstance(2023, 5, 5));
 
     ProjectResource otherWork = new ProjectResource();
     otherWork.setResourceId('resourceId001');
@@ -232,12 +232,12 @@ public with sharing class OutRequestServiceTest {
 
     OutRequest actualReq = requests.get(0);
     System.assertEquals(
-      Date.newInstance(2023, 5, 1),
+      Date.newInstance(2023, 5, 6),
       actualReq.getStartDate(),
       'Wrong Start Date'
     );
     System.assertEquals(
-      Date.newInstance(2023, 5, 3),
+      Date.newInstance(2023, 5, 9),
       actualReq.getEndDate(),
       'Wrong End Date'
     );
@@ -261,35 +261,35 @@ public with sharing class OutRequestServiceTest {
 
     actualReq = requests.get(1);
     System.assertEquals(
-      Date.newInstance(2023, 5, 4),
+      Date.newInstance(2023, 5, 5),
       actualReq.getStartDate(),
-      'Wrong Start Date'
+      'Wrong second Start Date'
     );
     System.assertEquals(
-      Date.newInstance(2023, 5, 7),
+      Date.newInstance(2023, 5, 5),
       actualReq.getEndDate(),
-      'Wrong End Date'
+      'Wrong second End Date'
     );
     System.assertEquals(
       'resourceId001',
       actualReq.getResourceId(),
-      'Wrong resource Id'
+      'Wrong second resource Id'
     );
     System.assertEquals(
       'projectId001',
       actualReq.getProjectId(),
-      'Wrong project Id'
+      'Wrong second project Id'
     );
     System.assertEquals(
       OutRequest.PENDING,
       actualReq.getStatus(),
-      'Wrong status'
+      'Wrong second status'
     );
-    System.assertEquals('name', actualReq.getName(), 'Wrong name');
+    System.assertEquals('name', actualReq.getName(), 'Wrong second name');
     System.assertEquals(
       'description',
       actualReq.getDescription(),
-      'Wrong description'
+      'Wrong second description'
     );
   }
 }
