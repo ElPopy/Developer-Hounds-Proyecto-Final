@@ -14,6 +14,7 @@ export default class ProjectResource extends LightningElement {
   endDate;
 
   dateDisable = false;
+  checkResourceDisable = true;
 
   handleChange(event) {
     this.allocation = {
@@ -65,13 +66,51 @@ export default class ProjectResource extends LightningElement {
     }
     return this.dateToFront(this.projectStart);
   }
-
-  handleDateEnd(event) {
-    this.endDate = this.parseDate(event.target.value);
+  @api get isCheckResourceDisable() {
+    return this.checkResourceDisable;
   }
 
-  handleDate(event) {
+  handleEndDate(event) {
+    const endDateValue = event.target.value;
+    if (
+      this.validStartDate(this.startDate) &&
+      this.validEndDate(endDateValue)
+    ) {
+      this.checkResourceDisable = false;
+    } else {
+      this.checkResourceDisable = true;
+    }
+    this.endDate = this.parseDate(endDateValue);
+  }
+
+  handleStartDate(event) {
+    const startDate = event.target.value;
+    if (this.validStartDate(startDate) && this.validEndDate(this.endDate)) {
+      this.checkResourceDisable = false;
+    } else {
+      this.checkResourceDisable = true;
+    }
     this.startDate = this.parseDate(event.target.value);
+  }
+
+  validEndDate(dateValue) {
+    if (
+      new Date(dateValue) >= new Date(this.allocationStart) &&
+      new Date(dateValue) <= new Date(this.projectEndDate)
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  validStartDate(dateValue) {
+    if (
+      new Date(dateValue) >= new Date(this.projectStartDate) &&
+      new Date(dateValue) <= new Date(this.projectEndDate)
+    ) {
+      return true;
+    }
+    return false;
   }
 
   parseDate(frontFormat) {
