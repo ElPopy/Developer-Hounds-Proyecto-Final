@@ -2,6 +2,8 @@ import { LightningElement, api } from "lwc";
 
 export default class ProjectResource extends LightningElement {
   @api resource;
+  @api projectStart;
+  @api projectEnd;
 
   allocation;
 
@@ -11,6 +13,8 @@ export default class ProjectResource extends LightningElement {
   startDate;
   endDate;
 
+  dateDisable = false;
+
   handleChange(event) {
     this.allocation = {
       resourceId: this.resource.id,
@@ -19,8 +23,10 @@ export default class ProjectResource extends LightningElement {
     };
     if (event.target.checked) {
       this.dispatchAddResource();
+      this.dateDisable = true;
     } else {
       this.dispatchDeleteResource();
+      this.dateDisable = false;
     }
   }
 
@@ -47,6 +53,18 @@ export default class ProjectResource extends LightningElement {
   @api get rateHour() {
     return this.resource.rateHour;
   }
+  @api get projectStartDate() {
+    return this.dateToFront(this.projectStart);
+  }
+  @api get projectEndDate() {
+    return this.dateToFront(this.projectEnd);
+  }
+  @api get allocationStart() {
+    if (this.startDate) {
+      return this.dateToFront(this.startDate);
+    }
+    return this.dateToFront(this.projectStart);
+  }
 
   handleDateEnd(event) {
     this.endDate = this.parseDate(event.target.value);
@@ -64,5 +82,15 @@ export default class ProjectResource extends LightningElement {
     const day = dateData[2];
 
     return [month, day, year].join("/");
+  }
+
+  dateToFront(date) {
+    const dateData = date.split("/");
+
+    const month = dateData[0];
+    const day = dateData[1];
+    const year = dateData[2];
+
+    return [year, month, day].join("-");
   }
 }

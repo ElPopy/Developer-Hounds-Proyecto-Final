@@ -4,6 +4,8 @@ import { LightningElement, api, track } from "lwc";
 // incoming data
 /* const project = {
   projectId: "project001",
+  projectStart:,
+  projectEnd:,
   projectLineItems: [
     {
       positionId: "position001",
@@ -145,6 +147,19 @@ export default class ResourceAllocationTable extends LightningElement {
       return this.project.projectLineItems;
     }
     return [];
+  }
+
+  @api get projectStart() {
+    if (this.project) {
+      return this.project.projectStart;
+    }
+    return "";
+  }
+  @api get projectEnd() {
+    if (this.project) {
+      return this.project.projectEnd;
+    }
+    return "";
   }
 
   // @api get enabled() {

@@ -1,15 +1,20 @@
 <template>
   <lightning-card>
-    <h1 slot="title">{role} - Hours To Cover : {soldHoursToCover}</h1>
+    <h1 class="slds-card__header">
+      {role}s - Hours To Cover : {soldHoursToCover} hours
+    </h1>
 
-    <template for:each={availableResource} for:item="resource">
-      <div key={resource.id}>
+    <div class="slds-card__body">
+      <template for:each={availableResource} for:item="resource">
         <c-project-resource
           onaddresorce={handleAdd}
           ondeleteresource={handleDelete}
           resource={resource}
+          project-start={projectStart}
+          project-end={projectEnd}
+          key={resource.id}
         ></c-project-resource>
-      </div>
-    </template>
+      </template>
+    </div>
   </lightning-card>
 </template>

@@ -1,26 +1,38 @@
 <template>
   <lightning-card>
-    <template if:false={isLoading}>
-      <template for:each={positions} for:item="position">
-        <div key={position.projectLineItemId}>
-          <c-position-entry
-            onallocationchange={handleAllocationChange}
-            position={position}
-          ></c-position-entry>
-        </div>
+    <lightning-layout multiple-rows horizontal-align="center">
+      <template if:false={isLoading}>
+        <template for:each={positions} for:item="position">
+          <lightning-layout-item
+            padding="around-small"
+            size="12"
+            key={position.projectLineItemId}
+          >
+            <c-position-entry
+              onallocationchange={handleAllocationChange}
+              position={position}
+              project-start={projectStart}
+              project-end={projectEnd}
+            ></c-position-entry>
+          </lightning-layout-item>
+        </template>
       </template>
-    </template>
-    <template if:true={isLoading}>
-      <lightning-spinner alternative-text="Loading"></lightning-spinner>
-    </template>
-    <div slot="footer">
-      <lightning-button
-        variant="success"
-        label="Allocate"
-        title="Allocate Resourses"
-        onclick={handleClick}
-        class="slds-m-left_x-small"
-      ></lightning-button>
-    </div>
+
+      <template if:true={isLoading}>
+        <lightning-layout-item padding="around-small" size="12">
+          <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </lightning-layout-item>
+      </template>
+
+      <lightning-layout-item padding="around-small" size="12" slot="footer">
+        <lightning-button
+          variant="success"
+          label="Allocate"
+          title="Allocate Resourses"
+          onclick={handleClick}
+          class="slds-m-left_x-small"
+        ></lightning-button>
+      </lightning-layout-item>
+    </lightning-layout>
   </lightning-card>
 </template>

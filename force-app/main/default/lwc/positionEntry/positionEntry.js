@@ -2,6 +2,8 @@ import { LightningElement, api } from "lwc";
 
 export default class PositionEntry extends LightningElement {
   @api position;
+  @api projectStart;
+  @api projectEnd;
 
   allocatedResources = [];
 
