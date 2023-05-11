@@ -129,7 +129,7 @@ public with sharing class ProjectService {
 
   public static Decimal busnessHours(Date startDate, Date endDate) {
     Decimal hoursPerDay = 8;
-    return startDate.daysBetween(endDate) * hoursPerDay;
+    return startDate.daysBetween(endDate + 1) * hoursPerDay;
   }
 
   public static Date getDate(String key, Map<String, String> allocation) {

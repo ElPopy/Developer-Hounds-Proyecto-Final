@@ -25,6 +25,13 @@ public with sharing class DebugConsole {
     List<Out_office_req__c> outReq = [SELECT Id FROM Out_office_req__c];
     delete outReq;
 
+    // debug days between
+    System.debug(
+      'daysBetween' +
+      Date.newInstance(2023, 05, 09).daysBetween(Date.newInstance(2023, 5, 11))
+    );
+    System.debug('May 9' + Date.newInstance(2023, 5, 9).format());
+
     // set rate per hour to Resourses
     Set<String> roleNames = new Set<String>{
       RoleName.PROJET_MANAGER,

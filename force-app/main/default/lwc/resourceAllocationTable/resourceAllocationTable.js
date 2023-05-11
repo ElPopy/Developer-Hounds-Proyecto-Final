@@ -81,7 +81,7 @@ export default class ResourceAllocationTable extends LightningElement {
   @api recordId;
 
   isLoading = true;
-  isEnabled = false;
+  buttonDesibled = true;
 
   @track project;
   allocationsByPosition = {};
@@ -92,7 +92,7 @@ export default class ResourceAllocationTable extends LightningElement {
 
   addResource(positionId, resourceList) {
     this.allocationsByPosition[positionId] = resourceList;
-
+    this.isReadyToSend(this.allocationsByPosition);
     console.log(
       `allocationTable positionId: `,
       JSON.parse(JSON.stringify(this.allocationsByPosition))
@@ -162,16 +162,21 @@ export default class ResourceAllocationTable extends LightningElement {
     return "";
   }
 
-  // @api get enabled() {
-  //   return this.isEnabled;
-  // }
-  // set enabled(allocations) {
-  //   for (const key in allocations) {
-  //     if (Object.hasOwnProperty.call(allocations, key)) {
-  //       const element = allocations[key];
-  //     }
-  //   }
-  // }
+  @api get isButtonDesibled() {
+    return this.buttonDesibled;
+  }
+  isReadyToSend(allocations) {
+    for (const key in allocations) {
+      if (Object.hasOwnProperty.call(allocations, key)) {
+        const positionList = allocations[key];
+        if (positionList.length > 0) {
+          this.buttonDesibled = false;
+          return;
+        }
+      }
+    }
+    this.buttonDesibled = true;
+  }
 
   setLoading(state) {
     this.isLoading = state;
