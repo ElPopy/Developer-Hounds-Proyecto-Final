@@ -1,15 +1,44 @@
 <template>
-  <lightning-card>
-    <h1 slot="title">{role} - Hours To Cover : {soldHoursToCover}</h1>
+  <lightning-layout multiple-rows horizontal-align="center">
+    <lightning-layout-item size="12">
+      <lightning-layout
+        class="role-header slds-p-around_small slds-text-heading_small"
+      >
+        <lightning-layout-item size="12">
+          <div class="slds-text-align_left">{role}s</div>
+          <div class="slds-grid slds-gutters slds-text-body_small">
+            <span class="slds-col hours-font"> Hours To Cover: {soldHoursToCover}hs </span>
+            <span class="slds-col hours-font slds-text-color_success">
+              Covered Hours: {assignedHours}hs
+            </span>
+          </div>
+        </lightning-layout-item>
+      </lightning-layout>
+    </lightning-layout-item>
 
-    <template for:each={availableResource} for:item="resource">
-      <div key={resource.id}>
-        <c-project-resource
-          onaddresorce={handleAdd}
-          ondeleteresource={handleDelete}
-          resource={resource}
-        ></c-project-resource>
-      </div>
-    </template>
-  </lightning-card>
+    <lightning-layout-item size="12">
+      <template if:true={anyHoursLeftToCover}>
+        <template for:each={availableResource} for:item="resource">
+          <c-project-resource
+            onaddresorce={handleAdd}
+            ondeleteresource={handleDelete}
+            resource={resource}
+            project-start={projectStart}
+            project-end={projectEnd}
+            key={resource.id}
+          ></c-project-resource>
+        </template>
+      </template>
+      <template if:true={allHoursCovered}>
+        <p class="message slds-p-around_medium slds-text-heading_small">
+          All {role} hours are covered!!
+        </p>
+      </template>
+      <template if:true={anyHoursButnoResourcesAvailables}>
+        <p class="alert slds-p-around_medium slds-text-heading_small">
+          All {role}s are working during the project period !!
+        </p>
+      </template>
+    </lightning-layout-item>
+  </lightning-layout>
 </template>

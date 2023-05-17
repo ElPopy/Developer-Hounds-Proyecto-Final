@@ -1,14 +1,58 @@
 <template>
-  <lightning-card>
-    <p>
-      Name: {firstName} {lastName} -
-      <span> Rate/Hour: {rateHour} </span>
+  <lightning-layout
+    class="row slds-p-top_xx-small slds-p-bottom_x-small"
+    horizontal-align="center"
+    vertical-align="center"
+  >
+    <lightning-layout-item size="3">
+      <div class="slds-grid">
+        <lightning-input
+          type="checkbox"
+          onchange={handleChange}
+          checked={selected}
+          disabled={isCheckResourceDisable}
+        ></lightning-input>
+        <div>{firstName} {lastName}</div>
+      </div>
+    </lightning-layout-item>
 
-      <input onchange={handleDate} value={start} type="date" />
-      <input onchange={handleDateEnd} value={end} type="date" />
+    <lightning-layout-item size="1">
+      <div>{rateHour}usd p/h</div>
+    </lightning-layout-item>
 
-      <input onchange={handleChange} type="checkbox" />
-    </p>
-  </lightning-card>
+    <lightning-layout-item size="3">
+      <div class="slds-grid slds-gutters">
+        <dir class="slds-col"></dir>
+        <lightning-input
+          class="slds-col"
+          type="date"
+          name="startDate"
+          label="From"
+          onchange={handleStartDate}
+          value={start}
+          min={projectStartDate}
+          max={projectEndDate}
+          disabled={dateDisable}
+        ></lightning-input>
+      </div>
+    </lightning-layout-item>
+
+    <lightning-layout-item size="3">
+      <div class="slds-grid slds-gutters">
+        <dir class="slds-col"></dir>
+        <lightning-input
+          class="slds-col"
+          type="date"
+          name="endDate"
+          label="To"
+          onchange={handleEndDate}
+          value={end}
+          min={allocationStarts}
+          max={projectEndDate}
+          disabled={dateDisable}
+        ></lightning-input>
+      </div>
+    </lightning-layout-item>
+  </lightning-layout>
 </template>
 

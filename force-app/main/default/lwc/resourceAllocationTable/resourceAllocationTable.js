@@ -4,6 +4,8 @@ import { LightningElement, api, track } from "lwc";
 // incoming data
 /* const project = {
   projectId: "project001",
+  projectStart:,
+  projectEnd:,
   projectLineItems: [
     {
       positionId: "position001",
@@ -79,7 +81,7 @@ export default class ResourceAllocationTable extends LightningElement {
   @api recordId;
 
   isLoading = true;
-  isEnabled = false;
+  buttonDesibled = true;
 
   @track project;
   allocationsByPosition = {};
@@ -90,7 +92,7 @@ export default class ResourceAllocationTable extends LightningElement {
 
   addResource(positionId, resourceList) {
     this.allocationsByPosition[positionId] = resourceList;
-
+    this.isReadyToSend(this.allocationsByPosition);
     console.log(
       `allocationTable positionId: `,
       JSON.parse(JSON.stringify(this.allocationsByPosition))
@@ -124,10 +126,11 @@ export default class ResourceAllocationTable extends LightningElement {
   sendAllocation() {
     this.setLoading(true);
     const allocationData = JSON.stringify(this.allocationsByPosition);
+    this.allocationsByPosition = {};
     allocateResources({ projectId: this.recordId, allocationData })
       .then((response) => this.handleResponse(response))
       .catch((error) => this.handleError(error))
-      .finally(() => (this.allocationsByPosition = {}));
+      .finally(() => this.isReadyToSend());
   }
 
   handleResponse(response) {
@@ -147,16 +150,35 @@ export default class ResourceAllocationTable extends LightningElement {
     return [];
   }
 
-  // @api get enabled() {
-  //   return this.isEnabled;
-  // }
-  // set enabled(allocations) {
-  //   for (const key in allocations) {
-  //     if (Object.hasOwnProperty.call(allocations, key)) {
-  //       const element = allocations[key];
-  //     }
-  //   }
-  // }
+  @api get projectStart() {
+    if (this.project) {
+      return this.project.projectStart;
+    }
+    return "";
+  }
+  @api get projectEnd() {
+    if (this.project) {
+      return this.project.projectEnd;
+    }
+    return "";
+  }
+
+  @api get isButtonDesibled() {
+    return this.buttonDesibled;
+  }
+  isReadyToSend(allocations) {
+    for (const key in allocations) {
+      if (Object.hasOwnProperty.call(allocations, key)) {
+        const positionList = allocations[key];
+        if (positionList.length > 0) {
+          this.buttonDesibled = false;
+          return false;
+        }
+      }
+    }
+    this.buttonDesibled = true;
+    return true;
+  }
 
   setLoading(state) {
     this.isLoading = state;
