@@ -41,12 +41,36 @@ export default class PositionEntry extends LightningElement {
     return this.position.role;
   }
   @api get soldHoursToCover() {
+    if (this.position.soldHoursToCover < 0) {
+      return 0;
+    }
     return this.position.soldHoursToCover;
+  }
+  @api get assignedHours() {
+    return this.position.assignedHours;
   }
   @api get availableResource() {
     return this.position.availableResource;
   }
   @api get id() {
     return this.position.positionId;
+  }
+  @api get anyHoursLeftToCover() {
+    if (this.soldHoursToCover === 0) {
+      return false;
+    }
+    return true;
+  }
+  @api get allHoursCovered() {
+    return !this.anyHoursLeftToCover;
+  }
+  @api get anyHoursButnoResourcesAvailables() {
+    if (
+      this.anyHoursLeftToCover &&
+      this.position.availableResource.length === 0
+    ) {
+      return true;
+    }
+    return false;
   }
 }

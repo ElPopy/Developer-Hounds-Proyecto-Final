@@ -8,6 +8,11 @@ public with sharing class DebugConsole {
       ProjectService.allocateResources(projectId, allocation)
     );
 
+    // schedule classes
+    ChangeStatus.ChangeStatusProject();
+    ChangeStatus.SendEmail();
+    ChangeStatus.ChangeStatusCompleted();
+
     // delete all ProjectResourses
     List<Project_Resources__c> prs = [SELECT Id FROM Project_Resources__c];
     delete prs;
@@ -28,7 +33,7 @@ public with sharing class DebugConsole {
     // debug days between
     System.debug(
       'daysBetween' +
-      Date.newInstance(2023, 05, 09).daysBetween(Date.newInstance(2023, 5, 11))
+      Date.newInstance(2023, 5, 9).daysBetween(Date.newInstance(2023, 5, 11))
     );
     System.debug('May 9' + Date.newInstance(2023, 5, 9).format());
 

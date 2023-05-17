@@ -126,10 +126,11 @@ export default class ResourceAllocationTable extends LightningElement {
   sendAllocation() {
     this.setLoading(true);
     const allocationData = JSON.stringify(this.allocationsByPosition);
+    this.allocationsByPosition = {};
     allocateResources({ projectId: this.recordId, allocationData })
       .then((response) => this.handleResponse(response))
       .catch((error) => this.handleError(error))
-      .finally(() => (this.allocationsByPosition = {}));
+      .finally(() => this.isReadyToSend());
   }
 
   handleResponse(response) {
@@ -171,11 +172,12 @@ export default class ResourceAllocationTable extends LightningElement {
         const positionList = allocations[key];
         if (positionList.length > 0) {
           this.buttonDesibled = false;
-          return;
+          return false;
         }
       }
     }
     this.buttonDesibled = true;
+    return true;
   }
 
   setLoading(state) {

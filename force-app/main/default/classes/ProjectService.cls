@@ -27,7 +27,7 @@ public with sharing class ProjectService {
           Start_Date__c,
           End_Date__c,
           (
-            SELECT Rol__c, SodlHoursToCover__c
+            SELECT Rol__c, SodlHoursToCover__c, AssignedHousxRol__c
             FROM ProjectLineItems__r
           )
         FROM Project__c
@@ -80,23 +80,35 @@ public with sharing class ProjectService {
       WHERE Id = :projectId
     ];
 
-    Map<Id, List<Map<String, String>>> allocationsByPositionId = parseAllocationData(allocationData);
+    Map<Id, List<Map<String, String>>> allocationsByPositionId = parseAllocationData(
+      allocationData
+    );
 
     for (Id positionId : allocationsByPositionId.keySet()) {
-      List<Map<String, String>> allocations = allocationsByPositionId.get(positionId);
+      List<Map<String, String>> allocations = allocationsByPositionId.get(
+        positionId
+      );
 
       for (Map<String, String> allocation : allocations) {
-        Project_Resources__c projectResource = createProjectResource(project, positionId, allocation);
+        Project_Resources__c projectResource = createProjectResource(
+          project,
+          positionId,
+          allocation
+        );
         projectResorces.add(projectResource);
       }
     }
-    
+
     Database.insert(projectResorces);
 
     return JSON.serialize(projectResorces);
   }
 
-  public static Project_Resources__c createProjectResource(Project__c project, Id positionId, Map<String, String> allocation) {
+  public static Project_Resources__c createProjectResource(
+    Project__c project,
+    Id positionId,
+    Map<String, String> allocation
+  ) {
     Project_Resources__c newProjectResource = new Project_Resources__c(
       Resource__c = (Id) allocation.get('resourceId'),
       Project__c = project.Id,
@@ -115,18 +127,6 @@ public with sharing class ProjectService {
     return newProjectResource;
   }
 
-  public static void addHours(Map<Id, Decimal> assignedHoursByPositionId, Project_Resources__c projectResource) {
-    Id positionId = projectResource.ProjectLineItem__c;
-    Decimal assignedHours = projectResource.Assigned_Hours__c;
-
-    if (assignedHoursByPositionId.containsKey(positionId)) {
-      Decimal newHours = assignedHoursByPositionId.get(positionId) + assignedHours;
-      assignedHoursByPositionId.put(positionId, newHours);
-    } else {
-      assignedHoursByPositionId.put(positionId, assignedHours);
-    }
-  }
-
   public static Decimal busnessHours(Date startDate, Date endDate) {
     Decimal hoursPerDay = 8;
     return startDate.daysBetween(endDate + 1) * hoursPerDay;
@@ -135,7 +135,6 @@ public with sharing class ProjectService {
   public static Date getDate(String key, Map<String, String> allocation) {
     return Date.parse(allocation.get(key));
   }
-  
 
   public static Map<Id, List<Map<String, String>>> parseAllocationData(
     String allocationData
