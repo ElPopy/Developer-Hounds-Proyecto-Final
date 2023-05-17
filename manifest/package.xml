@@ -2,6 +2,25 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
 		<members>*</members>
+		<name>ApexClass</name>
+	</types>
+	<types>
+		<members>*</members>
+		<name>ApexTrigger</name>
+	</types>
+	<types>
+		<members>Gestion_de_Proyectos</members>
+		<name>CustomApplication</name>
+	</types>
+	<types>
+		<members>ProjectLineItem__c</members>
+		<members>Project_Resources__c</members>
+		<members>Project_Task__c</members>
+		<members>Project__c</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
+		<members>*</members>
 		<name>FlexiPage</name>
 	</types>
 	<types>
@@ -10,7 +29,14 @@
 	</types>
 	<types>
 		<members>Opportunity-Opportunity Layout</members>
+		<members>Project_Resources__c-Project Resource Layout</members>
 		<name>Layout</name>
+	</types>
+	<types>
+		<members>projectResource</members>
+		<members>resourceAllocation</members>
+		<members>resourceAllocationTable</members>
+		<name>LightningComponentBundle</name>
 	</types>
 	<types>
 		<members>*</members>

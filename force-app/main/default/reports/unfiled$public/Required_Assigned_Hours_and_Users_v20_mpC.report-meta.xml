@@ -33,9 +33,6 @@
         <aggregateTypes>Sum</aggregateTypes>
         <field>ProjectLineItem__c$RequiredHoursxRol__c</field>
     </columns>
-    <columns>
-        <field>ProjectLineItem__c.Project_Resources__r$Resource_Name__c</field>
-    </columns>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>

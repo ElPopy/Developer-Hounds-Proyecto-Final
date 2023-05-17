@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Belongs_to_poject</fullName>
+    <active>true</active>
+    <description>Debe validarse que, al crear una tarea, la misma sea asignada a alguien que pertenezca al proyecto. Caso contrario mostrará un error.</description>
+    <errorConditionFormula>Project__r.Id  &lt;&gt;  Project_Resource__r.Project__r.Id</errorConditionFormula>
+    <errorMessage>El recurso asignado no forma parte del proyecto</errorMessage>
+</ValidationRule>
