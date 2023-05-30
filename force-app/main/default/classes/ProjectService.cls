@@ -4,16 +4,9 @@ public with sharing class ProjectService {
 
   @AuraEnabled(cacheable=false)
   public static String getAllocationData(Id projectId) {
-    Set<String> roleNames = new Set<String>{
-      RoleName.PROJET_MANAGER,
-      RoleName.DEVELOPER,
-      RoleName.ARCHITECH,
-      RoleName.CONSULTANT
-    };
     List<UserRole> roleList = [
       SELECT Id, Name
       FROM UserRole
-      WHERE Name IN :roleNames
     ];
     Map<String, Id> roleIdByName = new Map<String, Id>();
     Map<Id, String> roleNameById = new Map<Id, String>();
