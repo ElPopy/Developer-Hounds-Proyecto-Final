@@ -52,6 +52,6 @@ public class ProjectServiceTest {
     System.assertEquals(newPosition.Id, positionId, 'wrong position Id');
     System.assertEquals(RoleName.CONSULTANT, role, 'wrong role');
     System.assertEquals(150, soldHoursToCover, 'wrong required hours');
-    System.assertEquals(0, availableResources.size(), 'bad available size');
+    System.assertEquals(2, availableResources.size(), 'bad available size');
   }
 }

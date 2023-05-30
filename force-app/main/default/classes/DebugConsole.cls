@@ -13,6 +13,15 @@ public with sharing class DebugConsole {
     ChangeStatus.SendEmail();
     ChangeStatus.ChangeStatusCompleted();
 
+    List<UserRole> allRoles = [
+      SELECT Id, Name
+      FROM UserRole
+    ];
+
+    for (UserRole role : allRoles) {
+      System.debug('Id: ' + role.Id + ' - Name: ' + role.Name);
+    }
+
     // delete all ProjectResourses
     List<Project_Resources__c> prs = [SELECT Id FROM Project_Resources__c];
     delete prs;
