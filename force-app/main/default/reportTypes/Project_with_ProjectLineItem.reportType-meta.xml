@@ -67,11 +67,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Estimated_Cost__c</field>
-            <table>Project__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Project_Manager__c</field>
             <table>Project__c</table>
         </columns>
@@ -108,6 +103,26 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>AssignedTotalHours__c</field>
+            <table>Project__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Estimated_Cost__c</field>
+            <table>Project__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>SquadLead_c__c</field>
+            <table>Project__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Real_Cost__c</field>
+            <table>Project__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Assigned_Total_Hours__c</field>
             <table>Project__c</table>
         </columns>
         <masterLabel>Projects</masterLabel>
@@ -166,6 +181,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>SodlHoursToCover__c</field>
+            <table>Project__c.ProjectLineItems__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Estimated_Cost__c</field>
             <table>Project__c.ProjectLineItems__r</table>
         </columns>
         <masterLabel>ProjectLineItems</masterLabel>

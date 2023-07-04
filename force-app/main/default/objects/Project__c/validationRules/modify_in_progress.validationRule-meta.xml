@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>modify_in_progress</fullName>
+    <active>false</active>
+    <errorConditionFormula>IF(PRIORVALUE(Status__c) = &apos;Pre-kickoff&apos;, false ,  IF(PRIORVALUE(Status__c) = &apos;In Progress&apos;  &amp;&amp;  ISPICKVAL(Status__c, &apos;Completed&apos;) , false , true) )</errorConditionFormula>
+    <errorMessage>No se puede modificar cuando el proyecto esta en progreso</errorMessage>
+</ValidationRule>

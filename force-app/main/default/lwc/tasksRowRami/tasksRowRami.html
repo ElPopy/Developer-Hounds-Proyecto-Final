@@ -1,0 +1,48 @@
+<template>
+    <tr>
+        <td></td>
+        <td class="slds-text-align_left slds-p-horizontal_small">{task.Name}</td>
+        <td class="slds-text-align_left slds-p-horizontal_small">{task.Status__c}</td>
+        <td class="slds-text-align_left slds-p-horizontal_small">{task.Estimated_Hour__c}</td>
+        <td class="slds-text-align_left slds-p-horizontal_small">{task.Registered_Hours__c}</td>
+        <td>
+          <div class="slds-form-element slds-form-element_inline">
+             <template if:true={taskStarted} >   
+            
+              <lightning-input 
+              class="slds-size_1-of-4" 
+              type="number" 
+              step="0.01" 
+              min="0" 
+              value={task.Registered_Hours__c} 
+              >
+            </lightning-input>
+            
+              <lightning-button 
+              class="slds-size_1-of-4" 
+              label="Registrar" 
+              variant="brand" 
+              icon-name="utility:add">
+            </lightning-button>
+
+            <lightning-button 
+            label="Completar" 
+            variant="outline-brand" 
+            icon-name="utility:check">
+          </lightning-button>
+             
+             </template> 
+          
+          
+          <template if:false={taskStarted}>
+            <lightning-button 
+            label="Iniciar" 
+            variant="outline-brand" 
+            icon-name="utility:clock">
+          </lightning-button>
+          </template>
+          
+        </div>
+      </td>
+    </tr>
+</template>

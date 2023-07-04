@@ -1,0 +1,7 @@
+td{
+    align-items: flex-end;
+    text-align: right;
+    justify-content: right;
+   width: 800px;
+    max-width: 800px;
+}

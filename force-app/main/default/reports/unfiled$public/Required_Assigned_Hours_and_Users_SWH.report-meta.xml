@@ -7,12 +7,18 @@
         <chartSummaries>
             <aggregate>Sum</aggregate>
             <axisBinding>y</axisBinding>
-            <column>FK_$ProjectLineItem__c.AssignedHousxRol__c</column>
+            <column>Project_Resources__c.Assigned_Hours__c</column>
         </chartSummaries>
-        <chartType>VerticalColumn</chartType>
+        <chartSummaries>
+            <aggregate>Sum</aggregate>
+            <axisBinding>y</axisBinding>
+            <column>FK_$ProjectLineItem__c.RequiredHoursxRol__c</column>
+        </chartSummaries>
+        <chartType>VerticalColumnLine</chartType>
         <enableHoverLabels>false</enableHoverLabels>
         <expandOthers>true</expandOthers>
         <groupingColumn>FK_$ProjectLineItem__c.Rol__c</groupingColumn>
+        <legendPosition>Right</legendPosition>
         <location>CHART_BOTTOM</location>
         <showAxisLabels>true</showAxisLabels>
         <showPercentage>false</showPercentage>
@@ -27,19 +33,21 @@
     </chart>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
-        <field>FK_$ProjectLineItem__c.AssignedHousxRol__c</field>
+        <field>Project_Resources__c.Assigned_Hours__c</field>
     </columns>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
         <field>FK_$ProjectLineItem__c.RequiredHoursxRol__c</field>
     </columns>
-    <columns>
-        <field>Project_Resources__c.Resource_Name__c</field>
-    </columns>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
         <field>FK_$ProjectLineItem__c.Rol__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Project_Resources__c.Resource_Name__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
     <name>Required Assigned Hours and Users</name>
@@ -48,10 +56,10 @@
         <value>1</value>
     </params>
     <reportType>CustomEntity$Project_Resources__c@Project_Resources__c.ProjectLineItem__c</reportType>
-    <scope>user</scope>
+    <scope>organization</scope>
     <showDetails>true</showDetails>
-    <showGrandTotal>true</showGrandTotal>
-    <showSubTotals>true</showSubTotals>
+    <showGrandTotal>false</showGrandTotal>
+    <showSubTotals>false</showSubTotals>
     <timeFrameFilter>
         <dateColumn>CUST_CREATED_DATE</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>

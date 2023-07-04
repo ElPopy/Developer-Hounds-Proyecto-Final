@@ -5,7 +5,6 @@
     <externalId>false</externalId>
     <label>ProjectLineItem</label>
     <referenceTo>ProjectLineItem__c</referenceTo>
-    <relationshipLabel>Project Resources</relationshipLabel>
     <relationshipName>Project_Resources</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>

@@ -24,6 +24,11 @@
                 <default>false</default>
                 <label>Completed</label>
             </value>
+            <value>
+                <fullName>Financial loss</fullName>
+                <default>false</default>
+                <label>Financial loss</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

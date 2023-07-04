@@ -3,7 +3,7 @@
     <fullName>Role__c</fullName>
     <externalId>false</externalId>
     <label>Role</label>
-    <required>false</required>
+    <required>true</required>
     <type>Picklist</type>
     <valueSet>
         <valueSetDefinition>

@@ -1,0 +1,118 @@
+<!-- 
+ <template>
+    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+      <thead>
+        <tr class="slds-line-height_reset">
+          <th scope="col">
+            <div class="slds-truncate" title="Proyecto">Proyecto</div>
+          </th>
+          <th scope="col">
+            <div class="slds-truncate" title="Tarea">Tarea</div>
+          </th>
+          <th scope="col">
+            <div class="slds-truncate" title="Estado">Estado</div>
+          </th>
+          <th scope="col">
+            <div class="slds-truncate" title="Horas estimadas">Horas estimadas</div>
+          </th>
+          <th scope="col">
+            <div class="slds-truncate" title="Horas registradas">Horas registradas</div>
+          </th>
+          <th scope="col">
+            <div class="slds-truncate" title="Acciones">Acciones</div>
+          </th>
+        </tr> 
+      </thead>
+      <tbody>
+        <template for:each={projects} for:item="project">
+          <tr key={project.Id}>
+            <td>
+              {project.Name} (<span class="slds-text-color_error">{project.TaskCount} tareas pendientes</span>)
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <template for:each={project.Tasks} for:item="task">
+            <tr key={task.Id}>
+              <td></td>
+              <td>{task.Name}</td>
+              <td>{task.Status__c}</td>
+              <td>{task.Estimated_Hour__c}</td>
+              <td>{task.Registered_Hours__c}</td>
+              <td>
+                <div class="slds-form-element slds-form-element_inline">
+                  <template if:true={taskStarted} >  
+                  <div > 
+                    <lightning-input 
+                    class="slds-size_1-of-4" 
+                    type="number" 
+                    step="0.01" 
+                    min="0" 
+                    value={task.Registered_Hours__c} 
+                    >
+                  </lightning-input>
+                  
+                    <lightning-button 
+                    class="slds-size_1-of-4" 
+                    label="Registrar" 
+                    variant="brand" 
+                    icon-name="utility:add">
+                  </lightning-button>
+                   </div> 
+                  </template> 
+                
+                <lightning-button 
+                  label="Completar" 
+                  variant="outline-brand" 
+                  icon-name="utility:check">
+                </lightning-button>
+                
+                <lightning-button 
+                  label="Iniciar" 
+                  variant="outline-brand" 
+                  icon-name="utility:clock">
+                </lightning-button>
+              </div>
+            </td>
+          </tr>
+        </template>
+      </template>
+    </tbody>
+      </table>
+    </template> 
+
+ -->
+
+
+
+
+
+
+<template>
+  <lightning-card style="border-radius: 10px;" >
+    <template for:each={projects} for:item="project">
+      <lightning-card key={project.Id} >
+        <div class="slds-card__header slds-grid" style="background-color: #f2f2f2">
+          <h5 class="slds-text-heading_small slds-truncate slds-col slds-size_10-of-12" title={project.Name} style="font-size:large; font-weight:bold"> {project.Name} (<span class="slds-text-color_error">{project.TaskCount} tareas pendientes</span>) </h5>
+          <span class="slds-text-color_error slds-col slds-size_2-of-12"></span>
+        </div>
+         <div class="slds-box_xx-small slds-grid slds-wrap slds-text-align_center" style="font-weight: bold; background-color:  #d4f3dc;">
+           <div class="slds-col slds-size_2-of-12">Task</div> 
+          <div class="slds-col slds-size_2-of-12">Status</div>
+          <div class="slds-col slds-size_2-of-12">Estimated Hours</div>
+          <div class="slds-col slds-size_2-of-12">Registered Hours</div>
+          <div class="slds-col slds-size_1-of-12">Insert Hours</div>
+          <div class="slds-col slds-size_3-of-12">Actions</div>
+        </div>
+        <br/> 
+        <template for:each={project.Tasks} for:item="task">
+          <c-task-row key={task.Id} task={task} onrefresh={refresh}><br/></c-task-row>
+          
+        </template>
+      </lightning-card>
+    </template>
+  </lightning-card>
+</template>

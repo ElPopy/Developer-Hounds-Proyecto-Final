@@ -153,12 +153,13 @@
     <enableSharing>false</enableSharing>
     <enableStreamingApi>false</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>Project Resource</label>
+    <label>Resource</label>
     <nameField>
+        <displayFormat>ProjectResource-{0000}</displayFormat>
         <label>Project Resources Name</label>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Project Resources</pluralLabel>
+    <pluralLabel>Resources</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

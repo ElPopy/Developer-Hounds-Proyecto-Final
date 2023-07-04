@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>End_date_1</fullName>
+    <active>true</active>
+    <errorConditionFormula>End_Date__c  &lt;  Project__r.Start_Date__c</errorConditionFormula>
+    <errorMessage>La fecha de final no puede ser menor a la de inicio de proyecto</errorMessage>
+</ValidationRule>

@@ -1,0 +1,35 @@
+<template>
+  <lightning-record-edit-form>
+    <div class="slds-grid slds-box_xx-small" style="font-weight: bold; text-align: center; background-color: #fce4ec; border: 3px solid white">
+      <div class="slds-col slds-size_2-of-12" style="font-style:italic;">
+        {task.Name}
+      </div>
+      <div class="slds-col slds-size_2-of-12"  style="font-style:italic;">
+        {task.Status__c}
+      </div>
+      <div class="slds-col slds-size_2-of-12" style="font-style:italic;">
+        {task.Estimated_Hour__c}
+      </div>
+      <div class="slds-col slds-size_2-of-12" style="font-style:italic;">
+        {task.Registered_Hours__c}
+      </div>
+      <div class="slds-col slds-size_1-of-12" style="text-align: center" if:true={taskStarted}>
+        <lightning-input class="" type="number" variant="label-hidden" onchange={handleHours}></lightning-input>
+      </div>
+      <div class="slds-col slds-size_3-of-12" style="text-align: center" if:true={taskStarted}>
+        <lightning-button-group>
+          <lightning-button class="slds-button_font" icon-name="utility:clock" label="Register Hs" onclick={handleRegButton} disabled={disabled}></lightning-button>
+          <lightning-button class="slds-button_font" icon-name="utility:success" label="Completed" data-id={task.Id} onclick={handleComButton}></lightning-button>
+        </lightning-button-group>
+      </div>
+      <div class="slds-col slds-size_1-of-12" style="text-align: center" if:false={taskStarted}>
+       
+      </div>
+      <div class="slds-col slds-size_3-of-12" style="text-align: center" if:false={taskStatus}>
+        <lightning-button-group>
+          <lightning-button class="slds-button_font" icon-name="utility:play" label="Start" onclick={handleIniButton}></lightning-button>
+        </lightning-button-group>
+      </div>
+    </div>
+  </lightning-record-edit-form>
+</template>

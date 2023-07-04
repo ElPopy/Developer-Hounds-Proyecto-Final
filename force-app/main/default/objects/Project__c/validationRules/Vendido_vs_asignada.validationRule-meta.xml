@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vendido_vs_asignada</fullName>
+    <active>false</active>
+    <errorConditionFormula>Sold_Hours__c  &lt;&gt;  AssignedTotalHours__c</errorConditionFormula>
+    <errorDisplayField>Status__c</errorDisplayField>
+    <errorMessage>Las horas vendidas deben ser iguales a las horas asignadas</errorMessage>
+</ValidationRule>
